@@ -19,11 +19,11 @@ const Stack = createStackNavigator();
 const MainNavigator = () => {
 	return (
 		<Stack.Navigator>
-			<Stack.Screen
+			{/* <Stack.Screen
 				name="Home"
 				// options={{ headerShown: false }}
 				component={HomeScreen}
-			/>
+			/> */}
 			<Stack.Screen
 				name="NewTask"
 				component={NewTask}

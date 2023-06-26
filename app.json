@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ido_task_manager",
-    "slug": "ido_task_manager",
+    "slug": "idotaskmanager",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "efa962ad-ecc3-4d94-8a43-7900bcb656ff"
+      }
+    },
+    "owner": "gulshan_ara_nawshin"
   }
 }
