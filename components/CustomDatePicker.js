@@ -14,14 +14,16 @@ const CustomDatePicker = ({ label, placeHolder, onDateChange }) => {
 	// handle date state
 	const [date, setDate] = useState(placeHolder);
 
-  // function to handle date change
+	// function to handle date change
 	const onChangeDate = ({ type }, pickedDate) => {
-    // if date is set (Ok button is pressed)
+		// if date is set (Ok button is pressed)
 		if (type === "set") {
 			const currentDate = pickedDate;
-      // converting date object into string value and storing in state
+			// converting date object into string value and storing in state
 			setDate(currentDate.toDateString());
-      // hiding date picker
+			// updating the given state value to use later
+			onDateChange(currentDate.toDateString());
+			// hiding date picker
 			setShowPicker(false);
 		} else {
 			setShowPicker(!showPicker);
@@ -48,10 +50,10 @@ const CustomDatePicker = ({ label, placeHolder, onDateChange }) => {
 			{/* Render the date picker on condition */}
 			{showPicker && (
 				<DatePicker
-					mode="date"
-					display="calender"
-					value={new Date()}
-					onChange={onChangeDate}
+					mode="date" // mode defines the picker type(eg: date/time)
+					display="calender" // picker view is defined by display prop
+					value={new Date()} // value is required & recieves a date object to show on initial render
+					onChange={onChangeDate} // handles the date change
 				/>
 			)}
 		</>
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		margin: 5,
 		paddingHorizontal: 5,
-		flex: 1,
+		flex: 1.5,
 	},
 	dateContainer: {
 		backgroundColor: "lightgrey",
