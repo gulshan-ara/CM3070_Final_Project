@@ -1,12 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import AppNavigator from './navigation/AppNavigator';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Happy beginning of CM3070 Final Project!!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AppNavigator />
   );
 }
 
