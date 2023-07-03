@@ -1,20 +1,30 @@
+// import libraries
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { AntDesign } from "@expo/vector-icons";
 
+/** This is a custom component handling the display of the optionList.
+ * Here, optiondata is the list of options passed as parameter for reusing this function.
+ * onChangeSelection handles the user input
+ * selectedOption determines the initial value
+ */
 const CustomOptionsView = ({
 	optionData,
 	onChangeSelection,
 	selectedOption,
 }) => {
 	return (
+		// rendering the container view
 		<View style={styles.listContainer}>
+			{/* Looping over the options array */}
 			{optionData.map((item) => {
+				// determining icon based on user input
 				let iconName = "checkcircleo";
 				if (item.text === selectedOption) {
 					iconName = "checkcircle";
 				}
+				// rendering the option item view
 				return (
 					<TouchableOpacity
 						style={styles.listItem}
@@ -34,6 +44,15 @@ const CustomOptionsView = ({
 	);
 };
 
+
+/** CustomModal component recieves necessary datas to render an alert with specific informations
+ * as parameter,
+ * showAlert triggers when to show the Alert,
+ * closeAlert triggers when to hide the Alert,
+ * title & confirmText is used to render different texts in different places,
+ * optionData handles the options list,
+ * value & onChange handles the user selection 
+ */
 const CustomModal = ({
 	showAlert,
 	closeAlert,
@@ -43,8 +62,10 @@ const CustomModal = ({
 	onChange,
 	optionData,
 }) => {
+	// state variable to handle user selection
 	const [selectedOption, setSelectedOption] = useState(value);
 
+	// rendering the Alert using AwesomeAlert module of react native
 	return (
 		<>
 			<AwesomeAlert
