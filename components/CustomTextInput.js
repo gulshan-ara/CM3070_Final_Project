@@ -2,7 +2,7 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 
-const CustomTextInput = ({ label, multiline, value, onChangeText }) => {
+const CustomTextInput = ({ label, value, onChangeText }) => {
 	// render view
 	return (
 		<View style={styles.container}>
@@ -13,7 +13,6 @@ const CustomTextInput = ({ label, multiline, value, onChangeText }) => {
 				style={styles.inputContainer}
 				value={value} // sets the value of input field
 				placeholder="Type here" // placeholder text to show initially
-				multiline={multiline} // allows inputting multiline text
 				onChangeText={onChangeText} // handles input change
 			/>
 		</View>

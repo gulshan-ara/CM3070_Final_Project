@@ -18,7 +18,7 @@ const NewTask = () => {
 	const [showPriorityModal, setShowPriorityModal] = useState(false);
 	const [showRecurrenceModal, setShowRecurrenceModal] = useState(false);
 	const [priorityStatus, setPriorityStatus] = useState("High");
-	const [recurrenceStatus, setRecurrenceStatus] = useState("Everyday");
+	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
 
 	const priorityStatusList = [
 		{ text: "High" },
@@ -28,6 +28,7 @@ const NewTask = () => {
 	];
 
 	const recurrenceStatusList = [
+		{ text: "No" },
 		{ text: "Everyday" },
 		{ text: "Every Week" },
 		{ text: "Every Month" },
@@ -36,7 +37,7 @@ const NewTask = () => {
 
 	// render the screen
 	return (
-		<View>
+		<View style={styles.container}>
 			{/* Input field to recieve task name */}
 			<CustomTextInput
 				label="Task Name"
@@ -47,9 +48,32 @@ const NewTask = () => {
 			<CustomTextInput
 				label="Task Details"
 				value={taskDetails}
-				multiline={true} // allowed multiline inputs
 				onChangeText={(text) => setTaskDetails(text)}
 			/>
+
+			{/* View to set priority status of a task. OnPressing the text, it'll render a modal */}
+			<View style={styles.itemConatiner}>
+				<Text style={styles.itemLabel}>Priority : </Text>
+				<TouchableOpacity
+					onPress={() => setShowPriorityModal(true)}
+					style={styles.itemBackground}
+				>
+					<Text style={{ fontSize: 16 }}>
+						{priorityStatus} Priority
+					</Text>
+				</TouchableOpacity>
+			</View>
+			{/* Custom modal renderer */}
+			<CustomModal
+				title="Choose Priority"
+				confirmText="Set Priority"
+				showAlert={showPriorityModal}
+				closeAlert={setShowPriorityModal}
+				optionData={priorityStatusList}
+				value="High"
+				onChange={setPriorityStatus}
+			/>
+
 			{/* Custom date picker component used to render & store start date */}
 			<CustomDatePicker
 				label="Start Date"
@@ -62,28 +86,25 @@ const NewTask = () => {
 				placeHolder={dueDate}
 				onDateChange={setDueDate}
 			/>
-			<TouchableOpacity onPress={() => setShowPriorityModal(true)}>
-				<Text>{priorityStatus}</Text>
-			</TouchableOpacity>
-			<CustomModal
-				title="Choose Priority"
-				confirmText="Set Priority"
-				showAlert={showPriorityModal}
-				closeAlert={setShowPriorityModal}
-				optionData={priorityStatusList}
-				value="High"
-				onChange={setPriorityStatus}
-			/>
-			<TouchableOpacity onPress={() => setShowRecurrenceModal(true)}>
-				<Text>{recurrenceStatus}</Text>
-			</TouchableOpacity>
+
+			{/* View to set reccurring frequency of a task. OnPressing the text, it'll render a modal */}
+			<View style={styles.itemConatiner}>
+				<Text style={styles.itemLabel}>Recurring : </Text>
+				<TouchableOpacity
+					onPress={() => setShowRecurrenceModal(true)}
+					style={styles.itemBackground}
+				>
+					<Text style={{ fontSize: 16 }}>{recurrenceStatus}</Text>
+				</TouchableOpacity>
+			</View>
+			{/* Custom modal renderer */}
 			<CustomModal
 				title="Recurrence Frequency"
 				confirmText="Set Recurrence"
 				showAlert={showRecurrenceModal}
 				closeAlert={setShowRecurrenceModal}
 				optionData={recurrenceStatusList}
-				value="Everyday"
+				value="No"
 				onChange={setRecurrenceStatus}
 			/>
 		</View>
@@ -92,4 +113,23 @@ const NewTask = () => {
 
 export default NewTask;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	itemConatiner: {
+		flexDirection: "row",
+		margin: 10,
+	},
+	itemLabel: {
+		fontWeight: "bold",
+		fontSize: 18,
+		marginHorizontal: 5,
+		paddingHorizontal: 5,
+		flex: 1.5,
+	},
+	itemBackground: {
+		flex: 2.5,
+		marginHorizontal: 5,
+		paddingHorizontal: 8,
+		alignItems: "flex-start",
+		borderBottomWidth: 1,
+	},
+});

@@ -27,6 +27,7 @@ const CustomOptionsView = ({
 				// rendering the option item view
 				return (
 					<TouchableOpacity
+						key={item.text}
 						style={styles.listItem}
 						onPress={() => onChangeSelection(item.text)}
 					>
@@ -44,14 +45,13 @@ const CustomOptionsView = ({
 	);
 };
 
-
 /** CustomModal component recieves necessary datas to render an alert with specific informations
  * as parameter,
  * showAlert triggers when to show the Alert,
  * closeAlert triggers when to hide the Alert,
  * title & confirmText is used to render different texts in different places,
  * optionData handles the options list,
- * value & onChange handles the user selection 
+ * value & onChange handles the user selection
  */
 const CustomModal = ({
 	showAlert,
