@@ -2,8 +2,8 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
 const CustomButton = ({ buttonText, onPress, isdisabled }) => {
-	const bgColor =
-		isdisabled && isdisabled === true ? "grey" : "dodgerblue";
+	const bgColor = isdisabled && isdisabled === true ? "grey" : "dodgerblue";
+
 	return (
 		<TouchableOpacity
 			style={{ ...styles.btnConatiner, backgroundColor: bgColor }}
