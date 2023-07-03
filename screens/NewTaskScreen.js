@@ -21,6 +21,11 @@ const NewTask = ({ navigation }) => {
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
 
+	let isDisabled = false;
+	if (taskName === "" || dueDate === null) {
+		isDisabled = true;
+	}
+
 	const priorityStatusList = [
 		{ text: "High" },
 		{ text: "Low" },
@@ -108,14 +113,21 @@ const NewTask = ({ navigation }) => {
 				value="No"
 				onChange={setRecurrenceStatus}
 			/>
-			<CustomButton buttonText="Add task" onPress={() => {navigation.navigate("Task Details", {
-				taskName: taskName,
-				taskDetails : taskDetails,
-				priorityStatus: priorityStatus,
-				startDate: startDate,
-				dueDate: dueDate,
-				recurrenceStatus: recurrenceStatus
-			})}}/>
+
+			<CustomButton
+				buttonText="Add task"
+				isdisabled={isDisabled}
+				onPress={() => {
+					navigation.navigate("Task Details", {
+						taskName: taskName,
+						taskDetails: taskDetails,
+						priorityStatus: priorityStatus,
+						startDate: startDate,
+						dueDate: dueDate,
+						recurrenceStatus: recurrenceStatus,
+					});
+				}}
+			/>
 		</View>
 	);
 };
