@@ -8,8 +8,9 @@ import React, { useState } from "react";
 import CustomDatePicker from "../components/CustomDatePicker";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomModal from "../components/CustomModal";
+import CustomButton from "../components/CustomButton";
 
-const NewTask = () => {
+const NewTask = ({ navigation }) => {
 	// state variabless to handle value change
 	const [taskName, setTaskName] = useState("");
 	const [taskDetails, setTaskDetails] = useState("");
@@ -107,6 +108,14 @@ const NewTask = () => {
 				value="No"
 				onChange={setRecurrenceStatus}
 			/>
+			<CustomButton buttonText="Add task" onPress={() => {navigation.navigate("Task Details", {
+				taskName: taskName,
+				taskDetails : taskDetails,
+				priorityStatus: priorityStatus,
+				startDate: startDate,
+				dueDate: dueDate,
+				recurrenceStatus: recurrenceStatus
+			})}}/>
 		</View>
 	);
 };
