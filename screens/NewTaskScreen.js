@@ -114,6 +114,7 @@ const NewTask = ({ navigation }) => {
 				onChange={setRecurrenceStatus}
 			/>
 
+			{/* Custom Button component to handle form submission */}
 			<CustomButton
 				buttonText="Add task"
 				isdisabled={isDisabled}

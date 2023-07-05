@@ -1,10 +1,14 @@
+// import libraries & packages
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+// importing icon libraries
 import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+// importing components from this project
 import CustomButton from "../components/CustomButton";
 
-const TaskDetailsScreen = ({ route }) => {
+const TaskDetailsScreen = ({ navigation, route }) => {
+	// retrieving data passed during navigation
 	const taskObject = route.params;
 	const title = taskObject.taskName;
 	const description = taskObject.taskDetails;
@@ -13,25 +17,31 @@ const TaskDetailsScreen = ({ route }) => {
 	const priorityStatus = taskObject.priorityStatus;
 	const recurrenceStatus = taskObject.recurrenceStatus;
 
+	// render view
 	return (
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				<Text style={styles.title}>{title}</Text>
-				<TouchableOpacity>
-					<MaterialCommunityIcons
-						name="file-edit-outline"
+				{/* Pressable Icon for editing the task */}
+				<TouchableOpacity
+					onPress={() => navigation.navigate("Edit Task")}
+				>
+					<Feather
+						name="edit-3"
 						size={24}
 						color="black"
 						style={styles.editIcon}
 					/>
 				</TouchableOpacity>
 			</View>
+			{/* Rendering the task description view only if there's a task description given */}
 			{description !== "" && (
 				<Text style={styles.descriptionText}>
 					<MaterialIcons name="description" size={20} color="black" />
 					{description}
 				</Text>
 			)}
+			{/* rendering view for Priority & due dates */}
 			<View style={styles.itemContainer}>
 				<Text style={styles.itemHeading}>Priority : </Text>
 				<Text style={styles.itemText}>{priorityStatus}</Text>
@@ -44,13 +54,14 @@ const TaskDetailsScreen = ({ route }) => {
 				<Text style={styles.itemHeading}>Start Date : </Text>
 				<Text style={styles.itemText}>{startDate}</Text>
 			</View>
+			{/* Rendering the recurrenceStatus view only if there's a recurrencee frequency selected */}
 			{recurrenceStatus !== "No" && (
 				<View style={styles.itemContainer}>
 					<Text style={styles.itemHeading}>Recurring : </Text>
 					<Text style={styles.itemText}>{recurrenceStatus}</Text>
 				</View>
 			)}
-
+			{/* Rendering a button for deleting tasks */}
 			<CustomButton buttonText="Delete Task" />
 		</View>
 	);

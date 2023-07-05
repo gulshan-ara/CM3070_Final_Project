@@ -12,6 +12,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
 import NewTask from "../screens/NewTaskScreen";
 import TaskDetailsScreen from "../screens/TaskDetailsScreen";
+import EditTaskScreen from "../screens/EditTaskScreen";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -26,6 +27,7 @@ const MainNavigator = () => {
 				component={HomeScreen}
 			/> */}
 			<Stack.Screen name="NewTask" component={NewTask} />
+			<Stack.Screen name="Edit Task" component={EditTaskScreen} />
 			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />
 		</Stack.Navigator>
 	);
