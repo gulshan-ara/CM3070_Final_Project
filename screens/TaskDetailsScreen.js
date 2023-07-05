@@ -24,7 +24,11 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 				<Text style={styles.title}>{title}</Text>
 				{/* Pressable Icon for editing the task */}
 				<TouchableOpacity
-					onPress={() => navigation.navigate("Edit Task")}
+					onPress={() =>
+						navigation.navigate("Edit Task", {
+							taskObj: taskObject,
+						})
+					}
 				>
 					<Feather
 						name="edit-3"
