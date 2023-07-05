@@ -1,26 +1,30 @@
+// import libraries and packages
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
+// import components from this project
 import CustomDatePicker from "../components/CustomDatePicker";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
 
 const EditTaskScreen = ({ navigation, route }) => {
-	const recievedObj = route.params.taskObj;
-	const [taskName, setTaskName] = useState(recievedObj.taskName);
-	const [taskDetails, setTaskDetails] = useState(recievedObj.taskDetails);
-	const [startDate, setStartDate] = useState(recievedObj.startDate);
-	const [dueDate, setDueDate] = useState(recievedObj.dueDate);
+	// retreiving data passed via navigation
+	const initialValues = route.params.taskObj;
+
+	// setting the initial value of variables
+	const [taskName, setTaskName] = useState(initialValues.taskName);
+	const [taskDetails, setTaskDetails] = useState(initialValues.taskDetails);
+	const [startDate, setStartDate] = useState(initialValues.startDate);
+	const [dueDate, setDueDate] = useState(initialValues.dueDate);
 	const [showPriorityModal, setShowPriorityModal] = useState(false);
 	const [showRecurrenceModal, setShowRecurrenceModal] = useState(false);
 	const [priorityStatus, setPriorityStatus] = useState(
-		recievedObj.priorityStatus
+		initialValues.priorityStatus
 	);
 	const [recurrenceStatus, setRecurrenceStatus] = useState(
-		recievedObj.recurrenceStatus
+		initialValues.recurrenceStatus
 	);
-	const [isDisabled, setIsDisabled] = useState(true);
 
 	const priorityStatusList = [
 		{ text: "High" },
@@ -37,28 +41,17 @@ const EditTaskScreen = ({ navigation, route }) => {
 		{ text: "Every Year" },
 	];
 
-	const initialValues = {
-		taskName: recievedObj.taskName,
-		taskDetails: recievedObj.taskDetails,
-		startDate: recievedObj.startDate,
-		dueDate: recievedObj.dueDate,
-		priorityStatus: recievedObj.priorityStatus,
-		recurrenceStatus: recievedObj.recurrenceStatus,
+	// checking if there's any changes happened to enable the edit button
+	const hasChanges = () => {
+		return (
+			initialValues.taskName != taskName ||
+			initialValues.taskDetails != taskDetails ||
+			initialValues.startDate != startDate ||
+			initialValues.dueDate != dueDate ||
+			initialValues.priorityStatus != priorityStatus ||
+			initialValues.recurrenceStatus != recurrenceStatus
+		);
 	};
-	console.log(initialValues);
-
-	if (
-		taskName == initialValues.taskName ||
-		taskDetails == initialValues.taskDetails ||
-		startDate == initialValues.startDate ||
-		dueDate == initialValues.dueDate ||
-		priorityStatus == initialValues.priorityStatus ||
-		recurrenceStatus == initialValues.recurrenceStatus
-	) {
-		setIsDisabled(true);
-	} else {
-		setIsDisabled(false);
-	}
 
 	return (
 		<View>
@@ -68,12 +61,14 @@ const EditTaskScreen = ({ navigation, route }) => {
 				value={taskName}
 				onChangeText={(text) => setTaskName(text)}
 			/>
+
 			{/* Input field to recieve task details */}
 			<CustomTextInput
 				label="Task Details"
 				value={taskDetails}
 				onChangeText={(text) => setTaskDetails(text)}
 			/>
+
 			{/* View to set priority status of a task. OnPressing the text, it'll render a modal */}
 			<View style={styles.itemConatiner}>
 				<Text style={styles.itemLabel}>Priority : </Text>
@@ -86,6 +81,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 					</Text>
 				</TouchableOpacity>
 			</View>
+
 			{/* Custom modal renderer */}
 			<CustomModal
 				title="Choose Priority"
@@ -103,6 +99,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 				placeHolder={startDate}
 				onDateChange={setStartDate}
 			/>
+
 			{/* Custom date picker component used to render & store due date */}
 			<CustomDatePicker
 				label="Due Date"
@@ -120,6 +117,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 					<Text style={{ fontSize: 16 }}>{recurrenceStatus}</Text>
 				</TouchableOpacity>
 			</View>
+
 			{/* Custom modal renderer */}
 			<CustomModal
 				title="Recurrence Frequency"
@@ -131,20 +129,22 @@ const EditTaskScreen = ({ navigation, route }) => {
 				onChange={setRecurrenceStatus}
 			/>
 
-			<CustomButton
-				buttonText="Edit task"
-				isdisabled={isDisabled}
-				onPress={() => {
-					navigation.navigate("Task Details", {
-						taskName: taskName,
-						taskDetails: taskDetails,
-						priorityStatus: priorityStatus,
-						startDate: startDate,
-						dueDate: dueDate,
-						recurrenceStatus: recurrenceStatus,
-					});
-				}}
-			/>
+			{/* render the edit buttton only if there's changes in values from initial values */}
+			{hasChanges() && (
+				<CustomButton
+					buttonText="Edit task"
+					onPress={() => {
+						navigation.navigate("Task Details", {
+							taskName: taskName,
+							taskDetails: taskDetails,
+							priorityStatus: priorityStatus,
+							startDate: startDate,
+							dueDate: dueDate,
+							recurrenceStatus: recurrenceStatus,
+						});
+					}}
+				/>
+			)}
 		</View>
 	);
 };
