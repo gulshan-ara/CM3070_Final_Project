@@ -12,21 +12,21 @@ const CustomLinkText = ({title, onPress}) => {
 };
 
 const HomeScreen = ({ navigation }) => {
-	useEffect(() => {
-		navigation.setOptions({
-			headerRight: () => {
-				return (
-					<HeaderButtons HeaderButtonComponent={HeaderTabButton}>
-						<Item
-							title="New Task"
-							iconName="new-message"
-							onPress={() => navigation.navigate("New Task")}
-						/>
-					</HeaderButtons>
-				);
-			},
-		});
-	}, []);
+	// useEffect(() => {
+	// 	navigation.setOptions({
+	// 		headerRight: () => {
+	// 			return (
+	// 				<HeaderButtons HeaderButtonComponent={HeaderTabButton}>
+	// 					<Item
+	// 						title="New Task"
+	// 						iconName="new-message"
+	// 						onPress={() => navigation.navigate("New Task")}
+	// 					/>
+	// 				</HeaderButtons>
+	// 			);
+	// 		},
+	// 	});
+	// }, []);
 
 	return (
 		<View>
