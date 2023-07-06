@@ -8,39 +8,32 @@
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 // import functions, components & files from this project
 import HomeScreen from "../screens/HomeScreen";
 import NewTask from "../screens/NewTaskScreen";
 import TaskDetailsScreen from "../screens/TaskDetailsScreen";
 import EditTaskScreen from "../screens/EditTaskScreen";
-
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
 // creating the stack
 const Stack = createStackNavigator();
+// creating the bottom tab
 const Tab = createBottomTabNavigator();
 
+// bottom tab navigator code
 const TabNavigator = () => {
 	return (
-		<Tab.Navigator
-			screenOptions={{headerShadowVisible: false}}
-		>
+		<Tab.Navigator screenOptions={{ headerShadowVisible: false }}>
 			<Tab.Screen
 				name="I-do"
 				component={HomeScreen}
 				options={{
 					tabBarIcon: () => {
-						return (
-							<Feather
-								name="home"
-								size={24}
-								color="black"
-							/>
-						);
+						return <Feather name="home" size={24} color="black" />;
 					},
 				}}
 			/>
@@ -50,11 +43,7 @@ const TabNavigator = () => {
 				options={{
 					tabBarIcon: () => {
 						return (
-							<AntDesign
-								name="profile"
-								size={24}
-								color="black"
-							/>
+							<AntDesign name="profile" size={24} color="black" />
 						);
 					},
 				}}
@@ -65,11 +54,7 @@ const TabNavigator = () => {
 				options={{
 					tabBarIcon: () => {
 						return (
-							<Feather
-								name="search"
-								size={24}
-								color="black"
-							/>
+							<Feather name="search" size={24} color="black" />
 						);
 					},
 				}}
@@ -80,11 +65,7 @@ const TabNavigator = () => {
 				options={{
 					tabBarIcon: () => {
 						return (
-							<Feather
-								name="settings"
-								size={24}
-								color="black"
-							/>
+							<Feather name="settings" size={24} color="black" />
 						);
 					},
 				}}
@@ -97,7 +78,11 @@ const TabNavigator = () => {
 const MainNavigator = () => {
 	return (
 		<Stack.Navigator>
-			<Stack.Screen name="I-do" options={{ headerShown: false }} component={TabNavigator} />
+			<Stack.Screen
+				name="I-do"
+				options={{ headerShown: false }}
+				component={TabNavigator}
+			/>
 			<Stack.Screen name="New Task" component={NewTask} />
 			<Stack.Screen name="Edit Task" component={EditTaskScreen} />
 			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />

@@ -1,3 +1,6 @@
+/** Function to return a color based on priority of a task.
+ * Here priority is provided as parameter.
+ */
 export const taskColor = (priority) => {
 	if (priority === "High") {
 		return "red";
