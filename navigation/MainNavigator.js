@@ -21,12 +21,8 @@ const Stack = createStackNavigator();
 const MainNavigator = () => {
 	return (
 		<Stack.Navigator>
-			{/* <Stack.Screen
-				name="Home"
-				// options={{ headerShown: false }}
-				component={HomeScreen}
-			/> */}
-			<Stack.Screen name="NewTask" component={NewTask} />
+			<Stack.Screen name="I-do" options={""} component={HomeScreen} />
+			<Stack.Screen name="New Task" component={NewTask} />
 			<Stack.Screen name="Edit Task" component={EditTaskScreen} />
 			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />
 		</Stack.Navigator>
