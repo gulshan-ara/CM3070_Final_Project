@@ -32,14 +32,6 @@ export const allTask = [
     recurrenceStatus: "No"
   },
   {
-    taskName: "Task 1",
-    taskDetails: "",
-    startDate: "Thu Jul 06 2023",
-    dueDate: "Thu Jul 06 2023",
-    priorityStatus: "Normal",
-    recurrenceStatus: "No"
-  },
-  {
     taskName: "Task 5",
     taskDetails: "",
     startDate: "Thu Jul 06 2023",
@@ -52,7 +44,7 @@ export const allTask = [
     taskDetails: "",
     startDate: "Thu Jul 06 2023",
     dueDate: "Thu Jul 06 2023",
-    priorityStatus: "Normal",
+    priorityStatus: "Special",
     recurrenceStatus: "No"
   },
 ]

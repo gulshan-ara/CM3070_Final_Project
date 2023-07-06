@@ -14,11 +14,11 @@ import HomeScreen from "../screens/HomeScreen";
 import NewTask from "../screens/NewTaskScreen";
 import TaskDetailsScreen from "../screens/TaskDetailsScreen";
 import EditTaskScreen from "../screens/EditTaskScreen";
-import { Ionicons } from "@expo/vector-icons";
+
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import HeaderTabButton from "../components/HeaderTabButton";
+import ProfileScreen from "../screens/ProfileScreen";
+import SettingsScreen from "../screens/SettingsScreen";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -42,22 +42,11 @@ const TabNavigator = () => {
 							/>
 						);
 					},
-					headerRight: () => {
-						return (
-							<HeaderButtons HeaderButtonComponent={HeaderTabButton}>
-								<Item
-									title="New Task"
-									iconName="new-message"
-									onPress={() => navigation.navigate("New Task")}
-								/>
-							</HeaderButtons>
-						);
-					},
 				}}
 			/>
 			<Tab.Screen
 				name="Profile"
-				component={NewTask}
+				component={ProfileScreen}
 				options={{
 					tabBarIcon: () => {
 						return (
@@ -71,8 +60,8 @@ const TabNavigator = () => {
 				}}
 			/>
 			<Tab.Screen
-				name="Settings"
-				component={NewTask}
+				name="Search"
+				component={SettingsScreen}
 				options={{
 					tabBarIcon: () => {
 						return (
@@ -86,7 +75,7 @@ const TabNavigator = () => {
 				}}
 			/>
 			<Tab.Screen
-				name="Search"
+				name="Settings"
 				component={NewTask}
 				options={{
 					tabBarIcon: () => {
