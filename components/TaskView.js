@@ -20,6 +20,8 @@ const TaskView = (props) => {
 		<TouchableOpacity
 			style={{ ...styles.container}}
 			onPress={props.onPress}
+			accessible={true} 
+			accessibilityLabel="This is a task view"
 		>
 			{/* Task title renderer with different colors for each task */}
 			<Text style={{ ...styles.taskName }}>{props.taskName}</Text>

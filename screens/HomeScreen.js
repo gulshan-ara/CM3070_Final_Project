@@ -17,6 +17,18 @@ import { allTask } from "../data/allTask";
 import TaskView from "../components/TaskView";
 import AwesomeAlert from "react-native-awesome-alerts";
 
+const OpeningModalView = () => {
+	return (
+		<View style={styles.modalView}>
+			<Text style={styles.modalText}>For better app usage</Text>
+			<Text>- Press the top icon to add new task.</Text>
+			<Text>- Press bottom Icons to navigate through app. </Text>
+			<Text>- Press a taskcard to find task details.</Text>
+			<Text>- LongPress a task card to see options.</Text>
+		</View>
+	);
+};
+
 // A component used in top link bar
 // the repetative code for each link is turned into a function to increase readability & usability
 const CustomLinkText = ({ title, onPress }) => {
@@ -68,7 +80,7 @@ const HomeScreen = ({ navigation }) => {
 				<CustomLinkText title="Completed" />
 			</View>
 			{/* Scrollable view to render items from data array */}
-			<ScrollView style={{height: '88%'}}>
+			<ScrollView style={{ height: "88%" }}>
 				{/* Iterating over the data array */}
 				{allTask.map((item) => {
 					return (
@@ -109,6 +121,7 @@ const HomeScreen = ({ navigation }) => {
 				onDismiss={() => {
 					setShowAlert(false);
 				}}
+				customView={<OpeningModalView />}
 			/>
 		</View>
 	);
@@ -131,4 +144,12 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: "700",
 	},
+	modalView: {
+		width: 250
+	},
+	modalText: {
+		fontSize: 16,
+		letterSpacing: 0.3,
+		marginVertical: 10
+	}
 });
