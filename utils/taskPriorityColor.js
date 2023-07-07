@@ -3,12 +3,12 @@
  */
 export const taskColor = (priority) => {
 	if (priority === "High") {
-		return "red";
+		return "rgba(255, 0, 0, 0.5)";
 	} else if (priority === "Low") {
-		return "dodgerblue";
+		return "rgba(30, 144, 255, 0.5)";
 	} else if (priority === "Special") {
-		return "green";
+		return "rgba(0, 128, 0, 0.5)";
 	} else {
-		return "gold";
+		return "rgba(255, 215, 0, 0.5)";
 	}
 };

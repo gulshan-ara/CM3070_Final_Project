@@ -8,13 +8,14 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 // Import components & functions from this project
 import HeaderTabButton from "../components/HeaderTabButton";
 import { allTask } from "../data/allTask";
 import TaskView from "../components/TaskView";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 // A component used in top link bar
 // the repetative code for each link is turned into a function to increase readability & usability
@@ -28,6 +29,8 @@ const CustomLinkText = ({ title, onPress }) => {
 
 // The main component for home screen
 const HomeScreen = ({ navigation }) => {
+	const [showAlert, setShowAlert] = useState(false);
+
 	// Side effect on page load
 	/** In this effect hook, A navigation related icon added in the header of the screen
 	 * using expo vector icons & react native header buttons packages.
@@ -51,6 +54,10 @@ const HomeScreen = ({ navigation }) => {
 		});
 	}, []);
 
+	useEffect(() => {
+		setShowAlert(true);
+	}, []);
+
 	// Main UI renderer
 	return (
 		<View style={styles.container}>
@@ -61,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
 				<CustomLinkText title="Completed" />
 			</View>
 			{/* Scrollable view to render items from data array */}
-			<ScrollView>
+			<ScrollView style={{height: '88%'}}>
 				{/* Iterating over the data array */}
 				{allTask.map((item) => {
 					return (
@@ -72,10 +79,37 @@ const HomeScreen = ({ navigation }) => {
 							dueDate={item.dueDate}
 							priorityStatus={item.priorityStatus}
 							recurrenceStatus={item.recurrenceStatus}
+							onPress={() =>
+								navigation.navigate("Task Details", {
+									taskName: item.taskName,
+									taskDetails: item.taskDetails,
+									priorityStatus: item.priorityStatus,
+									startDate: item.startDate,
+									dueDate: item.dueDate,
+									recurrenceStatus: item.recurrenceStatus,
+								})
+							}
 						/>
 					);
 				})}
 			</ScrollView>
+
+			<AwesomeAlert
+				show={showAlert}
+				title="Welcome to I-do"
+				closeOnTouchOutside={true}
+				closeOnHardwareBackPress={false}
+				showConfirmButton={true}
+				confirmText="Got It"
+				confirmButtonColor="dodgerblue"
+				titleStyle={{ letterSpacing: 0.3 }}
+				onConfirmPressed={() => {
+					setShowAlert(false);
+				}}
+				onDismiss={() => {
+					setShowAlert(false);
+				}}
+			/>
 		</View>
 	);
 };
@@ -84,13 +118,13 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: "lightgrey",
+		backgroundColor: "white",
 	},
 	topLinkContainer: {
 		flexDirection: "row",
 		justifyContent: "space-around",
 		margin: 10,
-		backgroundColor: "white",
+		backgroundColor: "rgba(255, 248, 220, 0.3)",
 		paddingVertical: 10,
 	},
 	linkText: {

@@ -17,11 +17,13 @@ const TaskView = (props) => {
 	// The main view renderer
 	return (
 		// Making the view pressable so that can navigate to task details screens
-		<TouchableOpacity style={styles.container}>
+		<TouchableOpacity
+			style={{ ...styles.container}}
+			onPress={props.onPress}
+		>
 			{/* Task title renderer with different colors for each task */}
-			<Text style={{ ...styles.taskName, color: taskNameColor }}>
-				{props.taskName}
-			</Text>
+			<Text style={{ ...styles.taskName }}>{props.taskName}</Text>
+			<Text style={{ ...styles.dueDate }}>Priority : {props.priorityStatus}</Text>
 			{/* Due date & recurring status renderer */}
 			<View style={styles.subtitleContainer}>
 				<Text style={styles.dueDate}>Due Date : {dueDate}</Text>
@@ -43,10 +45,10 @@ const styles = StyleSheet.create({
 	container: {
 		marginHorizontal: 10,
 		marginVertical: 5,
-		backgroundColor: "white",
 		paddingVertical: 10,
 		paddingHorizontal: 15,
 		borderRadius: 10,
+		backgroundColor: 'beige'
 	},
 	taskName: {
 		fontSize: 18,

@@ -8,11 +8,13 @@ const CustomButton = ({ buttonText, onPress, isdisabled }) => {
 
 	// render view
 	return (
+		// Here touchableOpacity makes the view pressable so that it can work as a button
 		<TouchableOpacity
 			style={{ ...styles.btnConatiner, backgroundColor: bgColor }}
 			onPress={onPress}
 			disabled={isdisabled}
 		>
+			{/* the title of the button */}
 			<Text style={styles.btnText}>{buttonText}</Text>
 		</TouchableOpacity>
 	);

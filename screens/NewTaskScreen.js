@@ -21,6 +21,7 @@ const NewTask = ({ navigation }) => {
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
 
+	// checks when to disable the submit button
 	let isDisabled = false;
 	if (taskName === "" || dueDate === null) {
 		isDisabled = true;
