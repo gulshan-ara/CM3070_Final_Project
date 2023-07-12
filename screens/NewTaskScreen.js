@@ -3,12 +3,14 @@
 // import necessary libraries & packages
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
+import uuid from "react-native-uuid";
 
 // import components & files
 import CustomDatePicker from "../components/CustomDatePicker";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
+import { addTask } from "../utils/databaseHelper";
 
 const NewTask = ({ navigation }) => {
 	// state variabless to handle value change
@@ -41,6 +43,20 @@ const NewTask = ({ navigation }) => {
 		{ text: "Every Month" },
 		{ text: "Every Year" },
 	];
+
+	const addTaskToDb = async () => {
+		const taskId = uuid.v4();
+		const taskData = {
+			taskName,
+			taskDetails,
+			startDate,
+			dueDate,
+			priorityStatus,
+			recurrenceStatus,
+		};
+
+		await addTask(taskId, taskData);
+	};
 
 	// render the screen
 	return (
@@ -120,6 +136,7 @@ const NewTask = ({ navigation }) => {
 				buttonText="Add task"
 				isdisabled={isDisabled}
 				onPress={() => {
+					addTaskToDb();
 					navigation.navigate("Task Details", {
 						taskName: taskName,
 						taskDetails: taskDetails,

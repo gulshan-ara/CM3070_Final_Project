@@ -5,7 +5,6 @@ import CustomButton from '../components/CustomButton'
 const ProfileScreen = () => {
   return (
     <View>
-      <Text>ProfileScreen</Text>
       <CustomButton buttonText="Yet to Develop" />
     </View>
   )
