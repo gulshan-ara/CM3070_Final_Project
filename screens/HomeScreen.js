@@ -13,9 +13,9 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 // Import components & functions from this project
 import HeaderTabButton from "../components/HeaderTabButton";
-import { allTask } from "../data/allTask";
 import TaskView from "../components/TaskView";
 import AwesomeAlert from "react-native-awesome-alerts";
+import { getTaskList } from "../utils/databaseHelper";
 
 const OpeningModalView = () => {
 	return (
@@ -42,6 +42,7 @@ const CustomLinkText = ({ title, onPress }) => {
 // The main component for home screen
 const HomeScreen = ({ navigation }) => {
 	const [showAlert, setShowAlert] = useState(false);
+	const [taskList, setTaskList] = useState([]);
 
 	// Side effect on page load
 	/** In this effect hook, A navigation related icon added in the header of the screen
@@ -67,6 +68,18 @@ const HomeScreen = ({ navigation }) => {
 	}, []);
 
 	useEffect(() => {
+		const fetchTaskList = async () => {
+			try {
+				const retrievedtaskList = await getTaskList();
+				setTaskList(retrievedtaskList);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchTaskList();
+	}, [taskList]);
+
+	useEffect(() => {
 		setShowAlert(true);
 	}, []);
 
@@ -82,7 +95,7 @@ const HomeScreen = ({ navigation }) => {
 			{/* Scrollable view to render items from data array */}
 			<ScrollView style={{ height: "88%" }}>
 				{/* Iterating over the data array */}
-				{allTask.map((item) => {
+				{Object.values(taskList).map((item) => {
 					return (
 						// Custom component used to render the view of task
 						<TaskView
@@ -145,11 +158,11 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 	},
 	modalView: {
-		width: 250
+		width: 250,
 	},
 	modalText: {
 		fontSize: 16,
 		letterSpacing: 0.3,
-		marginVertical: 10
-	}
+		marginVertical: 10,
+	},
 });
