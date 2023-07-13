@@ -76,11 +76,12 @@ const styles = StyleSheet.create({
 		flex: 1.5,
 	},
 	dateContainer: {
-		backgroundColor: "lightgrey",
+		backgroundColor: "rgba(255, 250, 205, 0.7)",
 		flex: 2.5,
 		marginHorizontal: 5,
 		padding: 8,
-		alignItems: "center",
+		// alignItems: "center",
+		borderBottomWidth: 1
 	},
 	dateText: {
 		fontSize: 16,

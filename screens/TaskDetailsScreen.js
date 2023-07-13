@@ -103,9 +103,10 @@ export default TaskDetailsScreen;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		marginHorizontal: 20,
-		marginVertical: 100,
+		paddingHorizontal: 20,
+		paddingVertical: 100,
+		backgroundColor: 'beige',
+		height: '100%'
 	},
 	title: {
 		fontSize: 25,

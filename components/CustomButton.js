@@ -4,7 +4,8 @@ import React from "react";
 
 const CustomButton = ({ buttonText, onPress, isdisabled }) => {
 	// deciding the background color based on activity of the button
-	const bgColor = isdisabled && isdisabled === true ? "grey" : "dodgerblue";
+	const bgColor =
+		isdisabled && isdisabled === true ? "rgba(128, 128, 128, 0.5)" : "rgba(255,127,80, 0.9)";
 
 	// render view
 	return (
@@ -28,7 +29,6 @@ const styles = StyleSheet.create({
 		width: "40%",
 		alignItems: "center",
 		marginVertical: 20,
-		backgroundColor: "dodgerblue",
 		borderRadius: 20,
 	},
 	btnText: {

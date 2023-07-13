@@ -67,7 +67,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 	};
 
 	return (
-		<View>
+		<View style={styles.container}>
 			{/* Input field to recieve task name */}
 			<CustomTextInput
 				label="Task Name"
@@ -166,6 +166,10 @@ const EditTaskScreen = ({ navigation, route }) => {
 export default EditTaskScreen;
 
 const styles = StyleSheet.create({
+	container:{
+		backgroundColor: 'beige',
+		height: '100%'
+	},
 	itemConatiner: {
 		flexDirection: "row",
 		margin: 10,

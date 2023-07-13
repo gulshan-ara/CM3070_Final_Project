@@ -157,6 +157,10 @@ const NewTask = ({ navigation }) => {
 export default NewTask;
 
 const styles = StyleSheet.create({
+	container:{
+		backgroundColor: 'beige',
+		height: '100%'
+	},
 	itemConatiner: {
 		flexDirection: "row",
 		margin: 10,
