@@ -112,6 +112,7 @@ const HomeScreen = ({ navigation }) => {
 									startDate: item.startDate,
 									dueDate: item.dueDate,
 									recurrenceStatus: item.recurrenceStatus,
+									taskId: item.taskId
 								})
 							}
 						/>

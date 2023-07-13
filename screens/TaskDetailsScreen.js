@@ -1,11 +1,13 @@
 // import libraries & packages
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 // importing icon libraries
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 // importing components from this project
 import CustomButton from "../components/CustomButton";
+import { deleteTask } from "../utils/databaseHelper";
 
 const TaskDetailsScreen = ({ navigation, route }) => {
 	// retrieving data passed during navigation
@@ -16,6 +18,32 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 	const dueDate = taskObject.dueDate;
 	const priorityStatus = taskObject.priorityStatus;
 	const recurrenceStatus = taskObject.recurrenceStatus;
+	const taskId = taskObject.taskId;
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => {
+				return (
+					<TouchableOpacity
+						onPress={() => navigation.navigate("I-do")}
+					>
+						<Ionicons
+							name="arrow-back"
+							size={24}
+							color="black"
+							style={{ marginHorizontal: 10, marginVertical: 5 }}
+						/>
+					</TouchableOpacity>
+				);
+			},
+		});
+	}, [navigation]);
+
+	const handleDelete = async () => {
+		console.log(taskId);
+		await deleteTask(taskId);
+		// navigation.goBack();
+	};
 
 	// render view
 	return (
@@ -66,7 +94,7 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 				</View>
 			)}
 			{/* Rendering a button for deleting tasks */}
-			<CustomButton buttonText="Delete Task" />
+			<CustomButton buttonText="Delete Task" onPress={handleDelete} />
 		</View>
 	);
 };

@@ -7,6 +7,7 @@ import CustomDatePicker from "../components/CustomDatePicker";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
+import { editTask } from "../utils/databaseHelper";
 
 const EditTaskScreen = ({ navigation, route }) => {
 	// retreiving data passed via navigation
@@ -40,6 +41,18 @@ const EditTaskScreen = ({ navigation, route }) => {
 		{ text: "Every Month" },
 		{ text: "Every Year" },
 	];
+
+	const handleEdit = async () => {
+		editTask(initialValues.taskId, {
+			taskId: initialValues.taskId,
+			taskName,
+			priorityStatus,
+			dueDate,
+			startDate,
+			taskDetails,
+			recurrenceStatus,
+		});
+	};
 
 	// checking if there's any changes happened to enable the edit button
 	const hasChanges = () => {
@@ -134,6 +147,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 				<CustomButton
 					buttonText="Edit task"
 					onPress={() => {
+						handleEdit();
 						navigation.navigate("Task Details", {
 							taskName: taskName,
 							taskDetails: taskDetails,

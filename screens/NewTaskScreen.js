@@ -14,6 +14,7 @@ import { addTask } from "../utils/databaseHelper";
 
 const NewTask = ({ navigation }) => {
 	// state variabless to handle value change
+	const [newTaskId, setTaskId] = useState("");
 	const [taskName, setTaskName] = useState("");
 	const [taskDetails, setTaskDetails] = useState("");
 	const [startDate, setStartDate] = useState(new Date().toDateString());
@@ -46,7 +47,9 @@ const NewTask = ({ navigation }) => {
 
 	const addTaskToDb = async () => {
 		const taskId = uuid.v4();
+		setTaskId(taskId);
 		const taskData = {
+			taskId,
 			taskName,
 			taskDetails,
 			startDate,
@@ -54,7 +57,6 @@ const NewTask = ({ navigation }) => {
 			priorityStatus,
 			recurrenceStatus,
 		};
-
 		await addTask(taskId, taskData);
 	};
 
@@ -144,6 +146,7 @@ const NewTask = ({ navigation }) => {
 						startDate: startDate,
 						dueDate: dueDate,
 						recurrenceStatus: recurrenceStatus,
+						taskId: newTaskId,
 					});
 				}}
 			/>
