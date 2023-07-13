@@ -18,6 +18,7 @@ import TaskDetailsScreen from "../screens/TaskDetailsScreen";
 import EditTaskScreen from "../screens/EditTaskScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import SearchScreen from "../screens/SearchScreen";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -50,7 +51,7 @@ const TabNavigator = () => {
 			/>
 			<Tab.Screen
 				name="Search"
-				component={SettingsScreen}
+				component={SearchScreen}
 				options={{
 					tabBarIcon: () => {
 						return (
@@ -61,7 +62,7 @@ const TabNavigator = () => {
 			/>
 			<Tab.Screen
 				name="Settings"
-				component={NewTask}
+				component={SettingsScreen}
 				options={{
 					tabBarIcon: () => {
 						return (
