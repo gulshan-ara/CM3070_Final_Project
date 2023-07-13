@@ -8,8 +8,6 @@ import { taskColor } from "../utils/taskPriorityColor";
  *  provided.
  */
 const TaskView = (props) => {
-	// deciding the task title color based on task priority status
-	const taskNameColor = taskColor(props.priorityStatus);
 	// deciding what text will be shown based on the current date
 	const dueDate =
 		new Date().toDateString() === props.dueDate ? "Today" : props.dueDate;
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		paddingHorizontal: 15,
 		borderRadius: 10,
-		backgroundColor: 'cornsilk'
+		backgroundColor: 'rgba(255, 228, 181, 0.7)'
 	},
 	taskName: {
 		fontSize: 18,

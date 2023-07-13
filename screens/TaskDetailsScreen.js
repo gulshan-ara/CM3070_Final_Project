@@ -1,13 +1,15 @@
 // import libraries & packages
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // importing icon libraries
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 // importing components from this project
 import CustomButton from "../components/CustomButton";
-import { deleteTask } from "../utils/databaseHelper";
+import { deleteTask, getTask } from "../utils/databaseHelper";
+import AwesomeAlert from "react-native-awesome-alerts";
+import CustomAlert from "../components/CustomAlert";
 
 const TaskDetailsScreen = ({ navigation, route }) => {
 	// retrieving data passed during navigation
@@ -19,6 +21,7 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 	const priorityStatus = taskObject.priorityStatus;
 	const recurrenceStatus = taskObject.recurrenceStatus;
 	const taskId = taskObject.taskId;
+	const [showAlert, setShowAlert] = useState(false);
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -38,12 +41,6 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 			},
 		});
 	}, [navigation]);
-
-	const handleDelete = async () => {
-		console.log(taskId);
-		await deleteTask(taskId);
-		// navigation.goBack();
-	};
 
 	// render view
 	return (
@@ -94,7 +91,20 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 				</View>
 			)}
 			{/* Rendering a button for deleting tasks */}
-			<CustomButton buttonText="Delete Task" onPress={handleDelete} />
+			<CustomButton
+				buttonText="Delete Task"
+				onPress={() => setShowAlert(true)}
+			/>
+			<CustomAlert
+				isVisible={showAlert}
+				alertTitle="Confirm Delete?"
+				confirmText="Delete"
+				cancel={setShowAlert}
+				confirm={async () => {
+					await deleteTask(taskId);
+					navigation.navigate("I-do");
+				}}
+			/>
 		</View>
 	);
 };
@@ -105,8 +115,8 @@ const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 20,
 		paddingVertical: 100,
-		backgroundColor: 'beige',
-		height: '100%'
+		backgroundColor: "beige",
+		height: "100%",
 	},
 	title: {
 		fontSize: 25,

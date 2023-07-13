@@ -8,11 +8,12 @@ import CustomTextInput from "../components/CustomTextInput";
 import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
 import { editTask } from "../utils/databaseHelper";
+import CustomAlert from "../components/CustomAlert";
 
 const EditTaskScreen = ({ navigation, route }) => {
 	// retreiving data passed via navigation
 	const initialValues = route.params.taskObj;
-
+	const [showAlert, setShowAlert] = useState(false);
 	// setting the initial value of variables
 	const [taskName, setTaskName] = useState(initialValues.taskName);
 	const [taskDetails, setTaskDetails] = useState(initialValues.taskDetails);
@@ -147,18 +148,28 @@ const EditTaskScreen = ({ navigation, route }) => {
 				<CustomButton
 					buttonText="Edit task"
 					onPress={() => {
-						handleEdit();
-						navigation.navigate("Task Details", {
-							taskName: taskName,
-							taskDetails: taskDetails,
-							priorityStatus: priorityStatus,
-							startDate: startDate,
-							dueDate: dueDate,
-							recurrenceStatus: recurrenceStatus,
-						});
+						setShowAlert(true);
 					}}
 				/>
 			)}
+
+			<CustomAlert
+				isVisible={showAlert}
+				alertTitle="Confirm Edit?"
+				confirmText="Edit task"
+				cancel={setShowAlert}
+				confirm={async () => {
+					handleEdit();
+					navigation.navigate("Task Details", {
+						taskName: taskName,
+						taskDetails: taskDetails,
+						priorityStatus: priorityStatus,
+						startDate: startDate,
+						dueDate: dueDate,
+						recurrenceStatus: recurrenceStatus,
+					});
+				}}
+			/>
 		</View>
 	);
 };
@@ -166,9 +177,9 @@ const EditTaskScreen = ({ navigation, route }) => {
 export default EditTaskScreen;
 
 const styles = StyleSheet.create({
-	container:{
-		backgroundColor: 'beige',
-		height: '100%'
+	container: {
+		backgroundColor: "beige",
+		height: "100%",
 	},
 	itemConatiner: {
 		flexDirection: "row",

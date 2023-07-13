@@ -26,6 +26,19 @@ export const getTaskList = async () => {
 	}
 };
 
+export const getTask = async (taskId) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const taskRef = child(dbRef, `tasks/${taskId}`);
+
+		const snapshot = await get(taskRef);
+		return snapshot.val();
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export const deleteTask = async (taskId) => {
 	try {
 		const app = getFirebaseApp();

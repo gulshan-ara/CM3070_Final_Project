@@ -45,9 +45,7 @@ const NewTask = ({ navigation }) => {
 		{ text: "Every Year" },
 	];
 
-	const addTaskToDb = async () => {
-		const taskId = uuid.v4();
-		setTaskId(taskId);
+	const addTaskToDb = async (taskId) => {
 		const taskData = {
 			taskId,
 			taskName,
@@ -138,7 +136,8 @@ const NewTask = ({ navigation }) => {
 				buttonText="Add task"
 				isdisabled={isDisabled}
 				onPress={() => {
-					addTaskToDb();
+					const taskID = uuid.v4();
+					addTaskToDb(taskID);
 					navigation.navigate("Task Details", {
 						taskName: taskName,
 						taskDetails: taskDetails,
@@ -146,7 +145,7 @@ const NewTask = ({ navigation }) => {
 						startDate: startDate,
 						dueDate: dueDate,
 						recurrenceStatus: recurrenceStatus,
-						taskId: newTaskId,
+						taskId: taskID,
 					});
 				}}
 			/>
