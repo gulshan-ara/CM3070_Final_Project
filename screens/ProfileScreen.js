@@ -7,18 +7,39 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import React from "react";
-import CustomButton from "../components/CustomButton";
+import React, { useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
 import PostView from "../components/PostView";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderTabButton from "../components/HeaderTabButton";
+import { FontAwesome5 } from '@expo/vector-icons';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
+
+	useEffect(() => {
+		// adding headerRight property in options of header
+		navigation.setOptions({
+			headerRight: () => {
+				return (
+					// Custom component is used to enhance usability & readability of code
+					<HeaderButtons HeaderButtonComponent={HeaderTabButton}>
+						<Item
+							title="New Task"
+							iconName="user-friends"
+							IconComponent={FontAwesome5}
+						/>
+					</HeaderButtons>
+				);
+			},
+		});
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.profileInfo}>
 				<View style={styles.imgContainer}>
 					<Image
-						source={require("../assets/favicon.png")}
+						source={require("../assets/user.jpg")}
 						style={{ width: 80, height: 80, borderRadius: 40 }}
 					/>
 				</View>
@@ -32,27 +53,27 @@ const ProfileScreen = () => {
 
 			<ScrollView style={{ flex: 1, marginTop: 5 }}>
 				<PostView
-					postText="This is my First post, I want to check how long it goes & looks like??? ehe ehehehheeee"
+					postText="This is my First post, I am checking how looks like on screen???"
 					date="Thu 23-06-23"
 				/>
 				<PostView
-					postText="This is my First post"
+					postText="This is my Second post"
 					date="Thu 23-06-23"
 				/>
         <PostView
-					postText="This is my First post, I want to check how long it goes & looks like??? ehe ehehehheeee"
+					postText="I'm proud to share that I completed task X!!!"
 					date="Thu 23-06-23"
 				/>
 				<PostView
-					postText="This is my First post"
-					date="Thu 23-06-23"
-				/>
-        <PostView
-					postText="This is my First post, I want to check how long it goes & looks like??? ehe ehehehheeee"
+					postText="Feeling happy to complete 20 tasks in 3 days!!"
 					date="Thu 23-06-23"
 				/>
 				<PostView
-					postText="This is my First post"
+					postText="Feeling happy to complete 20 tasks in 3 days!!"
+					date="Thu 23-06-23"
+				/>
+				<PostView
+					postText="Feeling happy to complete 20 tasks in 3 days!!"
 					date="Thu 23-06-23"
 				/>
 			</ScrollView>

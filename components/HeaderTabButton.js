@@ -6,10 +6,11 @@ import { Entypo } from "@expo/vector-icons";
 
 /** This component handles the rendering of header buttons used in different screens */
 const HeaderTabButton = (props) => {
+	const iconComponent = props.IconComponent || Entypo;
 	return (
 		<HeaderButton
 			{...props}
-			IconComponent={Entypo}
+			IconComponent={iconComponent}
 			iconSize={23}
 			color={props.color}
 		/>

@@ -7,7 +7,7 @@ const PostView = ({ postText, date }) => {
 			<View style={styles.postContent}>
 				<View style={styles.imgContainer}>
 					<Image
-						source={require("../assets/favicon.png")}
+						source={require("../assets/user.jpg")}
 						style={{ width: 30, height: 30, borderRadius: 15 }}
 					/>
 				</View>
