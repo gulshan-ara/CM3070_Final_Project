@@ -5,7 +5,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 
 // import component file
-import CustomTextInput from "./CustomTextInput";
+import CustomTextInput from "../../components/CustomTextInput";
 
 /** unit test - 1
  *  The purpose of this unit test is to check whether the component is rendered properly or not.

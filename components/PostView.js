@@ -1,18 +1,27 @@
+// Import libraries & packages
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
+// Main view renderer
 const PostView = ({ postText, date }) => {
+
+	//  here post text & post creation date is passed as prop
 	return (
+		// the main container 
 		<View style={styles.container}>
+			{/* Container for profile picture & post text */}
 			<View style={styles.postContent}>
+				{/* rendring the profile picture */}
 				<View style={styles.imgContainer}>
 					<Image
 						source={require("../assets/user.jpg")}
 						style={{ width: 30, height: 30, borderRadius: 15 }}
 					/>
 				</View>
+				{/* rendering the post text */}
 				<Text style={styles.postText}>{postText}</Text>
 			</View>
+			{/* rendering the post creation date */}
 			<Text style={{ textAlign: "right", color: "grey" }}>{date}</Text>
 		</View>
 	);

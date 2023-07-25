@@ -80,6 +80,7 @@ const HomeScreen = ({ navigation }) => {
 		fetchTaskList();
 	}, [taskList]);
 
+	
 	useEffect(() => {
 		setShowAlert(true);
 	}, []);
