@@ -25,6 +25,7 @@ export default function App() {
 					"customSemiBold": require("./assets/fonts/DancingScript-SemiBold.ttf"),
 					"customMedium": require("./assets/fonts/DancingScript-Medium.ttf"),
 					"customRegular": require("./assets/fonts/DancingScript-Regular.ttf"),
+					"specialBold": require("./assets/fonts/RubikWetPaint-Regular.ttf"),
 				});
 			} catch (error) {
 				console.error(error);
