@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomTextInput render correctly text input component 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "marginHorizontal": 10,
+      "marginVertical": 5,
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "flex": 1.5,
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "margin": 5,
+        "paddingHorizontal": 5,
+      }
+    }
+  >
+     :
+  </Text>
+  <TextInput
+    placeholder="Type here"
+    style={
+      {
+        "alignItems": "center",
+        "borderBottomWidth": 1,
+        "flex": 2.5,
+        "marginHorizontal": 5,
+        "paddingHorizontal": 8,
+      }
+    }
+  />
+</View>
+`;

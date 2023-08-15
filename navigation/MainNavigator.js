@@ -80,7 +80,7 @@ const MainNavigator = () => {
 	return (
 		<Stack.Navigator>
 			<Stack.Screen
-				name="I-do"
+				name="Home"
 				options={{ headerShown: false }}
 				component={TabNavigator}
 			/>

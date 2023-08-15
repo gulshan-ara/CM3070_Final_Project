@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomDatePicker render correctly datepicker component 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "marginHorizontal": 10,
+      "marginVertical": 5,
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "flex": 1.5,
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "margin": 5,
+        "paddingHorizontal": 5,
+      }
+    }
+  >
+     :
+  </Text>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "rgba(255, 250, 205, 0.7)",
+        "borderBottomWidth": 1,
+        "flex": 2.5,
+        "marginHorizontal": 5,
+        "opacity": 1,
+        "padding": 8,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "letterSpacing": 0.5,
+        }
+      }
+    />
+  </View>
+</View>
+`;
