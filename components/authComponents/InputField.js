@@ -14,14 +14,9 @@ const InputField = ({
 	icon,
 	IconFamily,
 	securedText,
-  onChange
+  onChange,
+	onChangeText
 }) => {
-	const [value, setValue] = useState(initialValue);
-
-	const onChangeText = (text) => {
-		setValue(text);
-	};
-
 	return (
 		<View style={styles.inputFieldContainer}>
 			<Text style={styles.inputLabel}>{label} : </Text>
@@ -29,7 +24,7 @@ const InputField = ({
 				<TextInput
 					style={styles.textInput}
 					placeholder={placeholder}
-					value={value}
+					value={initialValue}
 					secureTextEntry={securedText}
           onChangeText={onChangeText}
 				/>
