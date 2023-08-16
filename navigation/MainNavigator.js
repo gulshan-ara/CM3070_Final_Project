@@ -19,6 +19,8 @@ import EditTaskScreen from "../screens/EditTaskScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import SearchScreen from "../screens/SearchScreen";
+import WelcomeScreen from "../screens/WelcomeScreen";
+import SignUpForm from "../components/authComponents/SignUpForm";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -79,14 +81,20 @@ const TabNavigator = () => {
 const MainNavigator = () => {
 	return (
 		<Stack.Navigator>
-			<Stack.Screen
+			{/* <Stack.Screen
 				name="Home"
 				options={{ headerShown: false }}
 				component={TabNavigator}
 			/>
 			<Stack.Screen name="New Task" component={NewTask} />
 			<Stack.Screen name="Edit Task" component={EditTaskScreen} />
-			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />
+			<Stack.Screen name="Task Details" component={TaskDetailsScreen} /> */}
+			<Stack.Screen
+				name="Welcome"
+				component={WelcomeScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen name="SignUp" component={SignUpForm} />
 		</Stack.Navigator>
 	);
 };

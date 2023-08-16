@@ -10,7 +10,6 @@ import { NavigationContainer } from "@react-navigation/native";
 
 // import functions & files from this project
 import MainNavigator from "./MainNavigator";
-import AuthScreen from "../screens/AuthScreen";
 
 const AppNavigator = () => {
 	return (

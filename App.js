@@ -48,10 +48,7 @@ export default function App() {
 	}
 
 	return (
-		// <AppNavigator />
-		<View onLayout={onLayout}>
-			<WelcomeScreen />
-		</View>
+			<AppNavigator onLayout={onLayout}/>
 	);
 }
 
