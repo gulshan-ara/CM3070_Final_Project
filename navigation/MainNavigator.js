@@ -95,6 +95,7 @@ const MainNavigator = () => {
 				options={{ headerShown: false }}
 			/>
 			<Stack.Screen name="SignUp" component={SignUpForm} />
+			{/* <Stack.Screen name="New Task" component={NewTask} /> */}
 		</Stack.Navigator>
 	);
 };

@@ -1,16 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import {
 	ActivityIndicator,
+	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
 	View,
 } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
-import WelcomeScreen from "./screens/WelcomeScreen";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,15 +22,16 @@ export default function App() {
 		const prepare = async () => {
 			try {
 				await Font.loadAsync({
-					"customBold": require("./assets/fonts/DancingScript-Bold.ttf"),
-					"customSemiBold": require("./assets/fonts/DancingScript-SemiBold.ttf"),
-					"customMedium": require("./assets/fonts/DancingScript-Medium.ttf"),
-					"customRegular": require("./assets/fonts/DancingScript-Regular.ttf"),
-					"specialBold": require("./assets/fonts/RubikWetPaint-Regular.ttf"),
+					customBold: require("./assets/fonts/DancingScript-Bold.ttf"),
+					customSemiBold: require("./assets/fonts/DancingScript-SemiBold.ttf"),
+					customMedium: require("./assets/fonts/DancingScript-Medium.ttf"),
+					customRegular: require("./assets/fonts/DancingScript-Regular.ttf"),
+					specialBold: require("./assets/fonts/RubikWetPaint-Regular.ttf"),
 				});
 			} catch (error) {
 				console.error(error);
 			} finally {
+				console.log("loaded");
 				setAppIsLoaded(true);
 			}
 		};
@@ -48,7 +50,9 @@ export default function App() {
 	}
 
 	return (
-			<AppNavigator onLayout={onLayout}/>
+		<SafeAreaProvider onLayout={onLayout}>
+			<AppNavigator />
+		</SafeAreaProvider>
 	);
 }
 

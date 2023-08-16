@@ -1,26 +1,23 @@
-/** The first screen to show in the app. Here I just showed the logo with a 
- * slogan and a button to navigate to other screens. 
+/** The first screen to show in the app. Here I just showed the logo with a
+ * slogan and a button to navigate to other screens.
  */
 
 // import necessary libraries and packages
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 
-// the component 
+// the component
 const WelcomeScreen = ({ navigation }) => {
-  // a state variable to enable/disable dark theme
-	const [isDark, setIsDark] = useState(false);
-
-  // the main view
+	// the main view
 	return (
-		<View style={isDark ? styles.darkContainer : styles.container}>
-      {/* The logo is just a text written with a custom font */}
+		<View style={styles.container}>
+			{/* The logo is just a text written with a custom font */}
 			<View style={styles.logoContainer}>
 				<Text style={styles.logo}>i-do</Text>
 			</View>
-      {/* The app branding line view */}
+			{/* The app branding line view */}
 			<View style={{ ...styles.logoContainer, marginHorizontal: 15 }}>
-        {/* Here 3 text blocks are used to apply different styles in different texts */}
+				{/* Here 3 text blocks are used to apply different styles in different texts */}
 				<Text style={styles.normalHeading}>Your personal</Text>
 				<Text
 					style={{ ...styles.normalHeading, ...styles.boldHeading }}
@@ -31,7 +28,7 @@ const WelcomeScreen = ({ navigation }) => {
 					with HairCare routine!!
 				</Text>
 			</View>
-      {/* The button used for navigating to other screen */}
+			{/* The button used for navigating to other screen */}
 			<TouchableOpacity
 				style={styles.buttonContainer}
 				onPress={() => {
