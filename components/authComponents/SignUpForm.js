@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 import InputField from "./InputField";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "../CustomButton";
+import { registerNewUser } from "../../utils/authHandler";
 
 const SignUpForm = () => {
 	const [securedText, setSecuredText] = useState(false);
@@ -25,6 +26,7 @@ const SignUpForm = () => {
 	const handleSubmit = () => {
 		if(name !== null && email !== null && password !== null && password === confirmedPassword){
 			console.log("submitted");
+			registerNewUser(email, password);
 		}else{
 			console.log("try again");
 		}
