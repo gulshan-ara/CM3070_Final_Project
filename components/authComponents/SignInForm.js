@@ -1,24 +1,15 @@
-import {
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from "react-native";
-import React, { useCallback, useState } from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
 import InputField from "./InputField";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "../CustomButton";
-import { registerNewUser } from "../../utils/authHandler";
+import { signInExistingUser } from "../../utils/authHandler";
 
-const SignUpForm = () => {
+const SignInForm = () => {
 	const [securedText, setSecuredText] = useState(false);
 	const [iconName, setIconName] = useState("eye-off");
-	const [name, setName] = useState(null);
 	const [email, setEmail] = useState(null);
 	const [password, setPassword] = useState(null);
-	const [confirmedPassword, setConfirmedPassword] = useState(null);
-	const [readyToSubmit, setReadyToSubmit] = useState(false);
 
 	const handleVisibilityChange = () => {
 		setSecuredText(!securedText);
@@ -30,14 +21,9 @@ const SignUpForm = () => {
 	};
 
 	const handleSubmit = () => {
-		if (
-			name !== null &&
-			email !== null &&
-			password !== null &&
-			password === confirmedPassword
-		) {
-			console.log("submitted");
-			registerNewUser(email, password);
+		if (email !== null && password !== null) {
+			signInExistingUser(email, password);
+      console.log("Logged In");
 		} else {
 			console.log("try again");
 		}
@@ -45,12 +31,7 @@ const SignUpForm = () => {
 
 	return (
 		<ScrollView>
-			<Text style={styles.headline}>Create a new account</Text>
-			<InputField
-				label="Name"
-				placeholder="Enter your name here"
-				onChangeText={(text) => setName(text)}
-			/>
+			<Text style={styles.headline}>Sign in to an account</Text>
 			<InputField
 				label="Email"
 				placeholder="Enter your email here"
@@ -65,18 +46,12 @@ const SignUpForm = () => {
 				onChange={handleVisibilityChange}
 				onChangeText={(text) => setPassword(text)}
 			/>
-			<InputField
-				label="Confirm Password"
-				placeholder="Retype password here"
-				securedText={true}
-				onChangeText={(text) => setConfirmedPassword(text)}
-			/>
-			<CustomButton buttonText="Sign Up" onPress={handleSubmit} />
+			<CustomButton buttonText="Sign In" onPress={handleSubmit} />
 		</ScrollView>
 	);
 };
 
-export default SignUpForm;
+export default SignInForm;
 
 const styles = StyleSheet.create({
 	headline: {
@@ -86,11 +61,4 @@ const styles = StyleSheet.create({
 		margin: 10,
 		paddingHorizontal: 10,
 	},
-	linkText: {
-		fontSize: 16,
-		color: 'dodgerblue'
-	},
-	linkContainer: {
-		alignItems: 'center'
-	}
 });

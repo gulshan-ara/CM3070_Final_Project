@@ -21,6 +21,7 @@ import SettingsScreen from "../screens/SettingsScreen";
 import SearchScreen from "../screens/SearchScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import SignUpForm from "../components/authComponents/SignUpForm";
+import AuthScreen from "../screens/AuthScreen";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -94,7 +95,7 @@ const MainNavigator = () => {
 				component={WelcomeScreen}
 				options={{ headerShown: false }}
 			/>
-			<Stack.Screen name="SignUp" component={SignUpForm} />
+			<Stack.Screen name="Authentication" component={AuthScreen} />
 			{/* <Stack.Screen name="New Task" component={NewTask} /> */}
 		</Stack.Navigator>
 	);
