@@ -20,8 +20,8 @@ import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import SearchScreen from "../screens/SearchScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
-import SignUpForm from "../components/authComponents/SignUpForm";
-import AuthScreen from "../screens/AuthScreen";
+import SignUpForm from "../screens/SignUpForm";
+import SignInForm from "../screens/SignInForm";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -82,21 +82,21 @@ const TabNavigator = () => {
 const MainNavigator = () => {
 	return (
 		<Stack.Navigator>
-			{/* <Stack.Screen
+			<Stack.Screen
+				name="Welcome"
+				component={WelcomeScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen name="Sign Up" component={SignUpForm} />
+			<Stack.Screen name="Sign In" component={SignInForm} />
+			<Stack.Screen
 				name="Home"
 				options={{ headerShown: false }}
 				component={TabNavigator}
 			/>
 			<Stack.Screen name="New Task" component={NewTask} />
 			<Stack.Screen name="Edit Task" component={EditTaskScreen} />
-			<Stack.Screen name="Task Details" component={TaskDetailsScreen} /> */}
-			<Stack.Screen
-				name="Welcome"
-				component={WelcomeScreen}
-				options={{ headerShown: false }}
-			/>
-			<Stack.Screen name="Authentication" component={AuthScreen} />
-			{/* <Stack.Screen name="New Task" component={NewTask} /> */}
+			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />
 		</Stack.Navigator>
 	);
 };

@@ -14,8 +14,8 @@ const InputField = ({
 	icon,
 	IconFamily,
 	securedText,
-  onChange,
-	onChangeText
+	onChange,
+	onChangeText,
 }) => {
 	return (
 		<View style={styles.inputFieldContainer}>
@@ -26,10 +26,13 @@ const InputField = ({
 					placeholder={placeholder}
 					value={initialValue}
 					secureTextEntry={securedText}
-          onChangeText={onChangeText}
+					onChangeText={onChangeText}
 				/>
 				{icon && (
-					<TouchableOpacity style={styles.optionalIcon} onPress={onChange}>
+					<TouchableOpacity
+						style={styles.optionalIcon}
+						onPress={onChange}
+					>
 						<IconFamily name={icon} size={20} color="black" />
 					</TouchableOpacity>
 				)}

@@ -12,7 +12,7 @@ import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
 import { addTask } from "../utils/databaseHelper";
 
-const NewTask = ({ navigation }) => {
+const NewTask = ({ navigation, route }) => {
 	// state variabless to handle value change
 	const [newTaskId, setTaskId] = useState("");
 	const [taskName, setTaskName] = useState("");
@@ -23,6 +23,7 @@ const NewTask = ({ navigation }) => {
 	const [showRecurrenceModal, setShowRecurrenceModal] = useState(false);
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
+	const userId = route.params.userId;
 
 	// checks when to disable the submit button
 	let isDisabled = false;
@@ -55,7 +56,7 @@ const NewTask = ({ navigation }) => {
 			priorityStatus,
 			recurrenceStatus,
 		};
-		await addTask(taskId, taskData);
+		await addTask(userId, taskId, taskData);
 	};
 
 	// render the screen

@@ -41,7 +41,9 @@ const CustomLinkText = ({ title, onPress }) => {
 };
 
 // The main component for home screen
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, route }) => {
+	// user id is stored for fetching other related data's of current user
+	const userId = route.params.userId;
 	const [showAlert, setShowAlert] = useState(false);
 	const [taskList, setTaskList] = useState([]);
 
@@ -71,7 +73,7 @@ const HomeScreen = ({ navigation }) => {
 	useEffect(() => {
 		const fetchTaskList = async () => {
 			try {
-				const retrievedtaskList = await getTaskList();
+				const retrievedtaskList = await getTaskList(userId);
 				setTaskList(retrievedtaskList);
 			} catch (error) {
 				console.log(error);
@@ -80,7 +82,6 @@ const HomeScreen = ({ navigation }) => {
 		fetchTaskList();
 	}, [taskList]);
 
-	
 	useEffect(() => {
 		setShowAlert(true);
 	}, []);
@@ -108,7 +109,12 @@ const HomeScreen = ({ navigation }) => {
 					</Text>
 					<CustomButton
 						buttonText="Add Task"
-						onPress={() => navigation.navigate("New Task")}
+						onPress={() =>
+							navigation.navigate("New Task", {
+								screen: "New Task",
+								params: { userId: userId },
+							})
+						}
 					/>
 				</View>
 			)}

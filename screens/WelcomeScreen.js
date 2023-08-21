@@ -4,7 +4,7 @@
 
 // import necessary libraries and packages
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 
 // the component
 const WelcomeScreen = ({ navigation }) => {
@@ -32,7 +32,7 @@ const WelcomeScreen = ({ navigation }) => {
 			<TouchableOpacity
 				style={styles.buttonContainer}
 				onPress={() => {
-					navigation.navigate("Authentication");
+					navigation.navigate("Sign Up");
 				}}
 			>
 				<Text style={styles.buttonText}>SignUp/Login</Text>

@@ -1,11 +1,37 @@
 import { getFirebaseApp } from "./firebaseInit";
-import { child, get, getDatabase, ref, remove, set, update } from "firebase/database";
+import {
+	child,
+	get,
+	getDatabase,
+	ref,
+	remove,
+	set,
+	update,
+} from "firebase/database";
 
-export const addTask = async (taskId, taskData) => {
+export const addNewUserToDB = async (name, email, userId) => {
 	try {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
-		const tasksRef = child(dbRef, `tasks/${taskId}`);
+		const userRef = child(dbRef, `users/${userId}`);
+
+		const userData = {
+			name,
+			email,
+			userId
+		};
+
+		await set(userRef, userData);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const addTask = async (userId, taskId, taskData) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const tasksRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
 
 		await set(tasksRef, taskData);
 	} catch (error) {
@@ -13,11 +39,11 @@ export const addTask = async (taskId, taskData) => {
 	}
 };
 
-export const getTaskList = async () => {
+export const getTaskList = async (userId) => {
 	try {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
-		const taskListRef = child(dbRef, `tasks`);
+		const taskListRef = child(dbRef, `users/${userId}/tasks`);
 
 		const snapshot = await get(taskListRef);
 		return snapshot.val();
@@ -26,11 +52,11 @@ export const getTaskList = async () => {
 	}
 };
 
-export const getTask = async (taskId) => {
+export const getTask = async (taskId, userId) => {
 	try {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
-		const taskRef = child(dbRef, `tasks/${taskId}`);
+		const taskRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
 
 		const snapshot = await get(taskRef);
 		return snapshot.val();
@@ -39,11 +65,11 @@ export const getTask = async (taskId) => {
 	}
 };
 
-export const deleteTask = async (taskId) => {
+export const deleteTask = async (taskId, userId) => {
 	try {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
-		const taskRef = child(dbRef, `tasks/${taskId}`);
+		const taskRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
 		console.log(taskRef);
 		await remove(taskRef);
 	} catch (error) {
