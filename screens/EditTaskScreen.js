@@ -13,6 +13,7 @@ import CustomAlert from "../components/CustomAlert";
 const EditTaskScreen = ({ navigation, route }) => {
 	// retreiving data passed via navigation
 	const initialValues = route.params.taskObj;
+	const userId = initialValues.userId;
 	const [showAlert, setShowAlert] = useState(false);
 	// setting the initial value of variables
 	const [taskName, setTaskName] = useState(initialValues.taskName);
@@ -44,7 +45,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 	];
 
 	const handleEdit = async () => {
-		editTask(initialValues.taskId, {
+		editTask(userId, initialValues.taskId, {
 			taskId: initialValues.taskId,
 			taskName,
 			priorityStatus,
@@ -167,6 +168,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 						startDate: startDate,
 						dueDate: dueDate,
 						recurrenceStatus: recurrenceStatus,
+						userId: userId
 					});
 				}}
 			/>

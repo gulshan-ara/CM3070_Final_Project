@@ -10,11 +10,10 @@ import CustomDatePicker from "../components/CustomDatePicker";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
-import { addTask } from "../utils/databaseHelper";
+import { addNewTaskForUser, addTask } from "../utils/databaseHelper";
 
 const NewTask = ({ navigation, route }) => {
 	// state variabless to handle value change
-	const [newTaskId, setTaskId] = useState("");
 	const [taskName, setTaskName] = useState("");
 	const [taskDetails, setTaskDetails] = useState("");
 	const [startDate, setStartDate] = useState(new Date().toDateString());
@@ -23,7 +22,9 @@ const NewTask = ({ navigation, route }) => {
 	const [showRecurrenceModal, setShowRecurrenceModal] = useState(false);
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
+	const [newTaskId, setnewTaskId] = useState(null);
 	const userId = route.params.userId;
+	console.log(userId);
 
 	// checks when to disable the submit button
 	let isDisabled = false;
@@ -38,15 +39,7 @@ const NewTask = ({ navigation, route }) => {
 		{ text: "Special" },
 	];
 
-	const recurrenceStatusList = [
-		{ text: "No" },
-		{ text: "Everyday" },
-		{ text: "Every Week" },
-		{ text: "Every Month" },
-		{ text: "Every Year" },
-	];
-
-	const addTaskToDb = async (taskId) => {
+	const addTaskToDb = async (userId, taskId) => {
 		const taskData = {
 			taskId,
 			taskName,
@@ -56,8 +49,16 @@ const NewTask = ({ navigation, route }) => {
 			priorityStatus,
 			recurrenceStatus,
 		};
-		await addTask(userId, taskId, taskData);
+		await addNewTaskForUser(userId, taskId, taskData);
 	};
+
+	const recurrenceStatusList = [
+		{ text: "No" },
+		{ text: "Everyday" },
+		{ text: "Every Week" },
+		{ text: "Every Month" },
+		{ text: "Every Year" },
+	];
 
 	// render the screen
 	return (
@@ -137,17 +138,23 @@ const NewTask = ({ navigation, route }) => {
 				buttonText="Add task"
 				isdisabled={isDisabled}
 				onPress={() => {
-					const taskID = uuid.v4();
-					addTaskToDb(taskID);
-					navigation.navigate("Task Details", {
-						taskName: taskName,
-						taskDetails: taskDetails,
-						priorityStatus: priorityStatus,
-						startDate: startDate,
-						dueDate: dueDate,
-						recurrenceStatus: recurrenceStatus,
-						taskId: taskID,
-					});
+					try {
+						// add task here
+						const taskID = uuid.v4();
+						addTaskToDb(userId, taskID);
+						navigation.navigate("Task Details", {
+							taskName: taskName,
+							taskDetails: taskDetails,
+							priorityStatus: priorityStatus,
+							startDate: startDate,
+							dueDate: dueDate,
+							recurrenceStatus: recurrenceStatus,
+							taskId: taskID,
+							userId: userId
+						});
+					} catch (error) {
+						console.log(error.message);
+					}
 				}}
 			/>
 		</View>
@@ -157,9 +164,9 @@ const NewTask = ({ navigation, route }) => {
 export default NewTask;
 
 const styles = StyleSheet.create({
-	container:{
-		backgroundColor: 'beige',
-		height: '100%'
+	container: {
+		backgroundColor: "beige",
+		height: "100%",
 	},
 	itemConatiner: {
 		flexDirection: "row",

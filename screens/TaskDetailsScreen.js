@@ -13,6 +13,7 @@ import CustomAlert from "../components/CustomAlert";
 
 const TaskDetailsScreen = ({ navigation, route }) => {
 	// retrieving data passed during navigation
+	console.log("task details screen", route.params);
 	const taskObject = route.params;
 	const title = taskObject.taskName;
 	const description = taskObject.taskDetails;
@@ -21,6 +22,7 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 	const priorityStatus = taskObject.priorityStatus;
 	const recurrenceStatus = taskObject.recurrenceStatus;
 	const taskId = taskObject.taskId;
+	const userId = taskObject.userId;
 	const [showAlert, setShowAlert] = useState(false);
 
 	useEffect(() => {
@@ -28,7 +30,12 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 			headerLeft: () => {
 				return (
 					<TouchableOpacity
-						onPress={() => navigation.navigate("I-do")}
+						onPress={() =>
+							navigation.navigate("Home", {
+								screen: "I-do",
+								params: { userId: userId },
+							})
+						}
 					>
 						<Ionicons
 							name="arrow-back"
@@ -101,8 +108,11 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 				confirmText="Delete"
 				cancel={setShowAlert}
 				confirm={async () => {
-					await deleteTask(taskId);
-					navigation.navigate("I-do");
+					await deleteTask(userId, taskId);
+					navigation.navigate("Home", {
+						screen: "I-do",
+						params: { userId: userId },
+					});
 				}}
 			/>
 		</View>

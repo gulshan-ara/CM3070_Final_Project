@@ -62,7 +62,11 @@ const HomeScreen = ({ navigation, route }) => {
 						<Item
 							title="New Task"
 							iconName="new-message"
-							onPress={() => navigation.navigate("New Task")}
+							onPress={() =>
+								navigation.navigate("New Task", {
+									userId: userId,
+								})
+							}
 						/>
 					</HeaderButtons>
 				);
@@ -110,10 +114,7 @@ const HomeScreen = ({ navigation, route }) => {
 					<CustomButton
 						buttonText="Add Task"
 						onPress={() =>
-							navigation.navigate("New Task", {
-								screen: "New Task",
-								params: { userId: userId },
-							})
+							navigation.navigate("New Task", { userId: userId })
 						}
 					/>
 				</View>
@@ -140,6 +141,7 @@ const HomeScreen = ({ navigation, route }) => {
 										dueDate: item.dueDate,
 										recurrenceStatus: item.recurrenceStatus,
 										taskId: item.taskId,
+										userId: userId,
 									})
 								}
 							/>
@@ -147,7 +149,7 @@ const HomeScreen = ({ navigation, route }) => {
 					})}
 				</ScrollView>
 			)}
-			<AwesomeAlert
+			{/* <AwesomeAlert
 				show={showAlert}
 				title="Welcome to I-do"
 				closeOnTouchOutside={true}
@@ -163,7 +165,7 @@ const HomeScreen = ({ navigation, route }) => {
 					setShowAlert(false);
 				}}
 				customView={<OpeningModalView />}
-			/>
+			/> */}
 		</View>
 	);
 };

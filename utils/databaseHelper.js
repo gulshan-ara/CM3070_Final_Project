@@ -18,7 +18,7 @@ export const addNewUserToDB = async (name, email, userId) => {
 		const userData = {
 			name,
 			email,
-			userId
+			userId,
 		};
 
 		await set(userRef, userData);
@@ -27,15 +27,16 @@ export const addNewUserToDB = async (name, email, userId) => {
 	}
 };
 
-export const addTask = async (userId, taskId, taskData) => {
+export const addNewTaskForUser = async (userId, taskId, taskData) => {
 	try {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
-		const tasksRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
+		const userRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
+		// const taskRef = child(userRef, `tasks/${taskId}`);
 
-		await set(tasksRef, taskData);
+		await set(userRef, taskData);
 	} catch (error) {
-		console.log(error);
+		console.log(error.message);
 	}
 };
 
@@ -65,7 +66,7 @@ export const getTask = async (taskId, userId) => {
 	}
 };
 
-export const deleteTask = async (taskId, userId) => {
+export const deleteTask = async (userId, taskId) => {
 	try {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
@@ -77,11 +78,11 @@ export const deleteTask = async (taskId, userId) => {
 	}
 };
 
-export const editTask = async (taskId, taskData) => {
+export const editTask = async (userId, taskId, taskData) => {
 	try {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
-		const tasksRef = child(dbRef, `tasks/${taskId}`);
+		const tasksRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
 
 		await update(tasksRef, taskData);
 	} catch (error) {
