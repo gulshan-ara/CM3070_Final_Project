@@ -2,7 +2,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 // import functions & components from this project
-import { taskColor } from "../utils/taskPriorityColor";
 
 /** This component renders the view of a single task based on the parameters
  *  provided.

@@ -22,9 +22,7 @@ const NewTask = ({ navigation, route }) => {
 	const [showRecurrenceModal, setShowRecurrenceModal] = useState(false);
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
-	const [newTaskId, setnewTaskId] = useState(null);
 	const userId = route.params.userId;
-	console.log(userId);
 
 	// checks when to disable the submit button
 	let isDisabled = false;
@@ -139,7 +137,7 @@ const NewTask = ({ navigation, route }) => {
 				isdisabled={isDisabled}
 				onPress={() => {
 					try {
-						// add task here
+						// add task to db here
 						const taskID = uuid.v4();
 						addTaskToDb(userId, taskID);
 						navigation.navigate("Task Details", {
@@ -150,7 +148,7 @@ const NewTask = ({ navigation, route }) => {
 							dueDate: dueDate,
 							recurrenceStatus: recurrenceStatus,
 							taskId: taskID,
-							userId: userId
+							userId: userId,
 						});
 					} catch (error) {
 						console.log(error.message);

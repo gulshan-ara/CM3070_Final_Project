@@ -168,7 +168,7 @@ const EditTaskScreen = ({ navigation, route }) => {
 						startDate: startDate,
 						dueDate: dueDate,
 						recurrenceStatus: recurrenceStatus,
-						userId: userId
+						userId: userId,
 					});
 				}}
 			/>

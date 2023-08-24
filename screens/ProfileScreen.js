@@ -12,10 +12,9 @@ import { Feather } from "@expo/vector-icons";
 import PostView from "../components/PostView";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderTabButton from "../components/HeaderTabButton";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from "@expo/vector-icons";
 
-const ProfileScreen = ({navigation}) => {
-
+const ProfileScreen = ({ navigation }) => {
 	useEffect(() => {
 		// adding headerRight property in options of header
 		navigation.setOptions({
@@ -60,7 +59,7 @@ const ProfileScreen = ({navigation}) => {
 					postText="This is my Second post"
 					date="Thu 23-06-23"
 				/>
-        <PostView
+				<PostView
 					postText="I'm proud to share that I completed task X!!!"
 					date="Thu 23-06-23"
 				/>

@@ -9,6 +9,7 @@ import {
 	update,
 } from "firebase/database";
 
+// add new user info to database
 export const addNewUserToDB = async (name, email, userId) => {
 	try {
 		const app = getFirebaseApp();
@@ -27,6 +28,7 @@ export const addNewUserToDB = async (name, email, userId) => {
 	}
 };
 
+// add new task for an user
 export const addNewTaskForUser = async (userId, taskId, taskData) => {
 	try {
 		const app = getFirebaseApp();
@@ -40,6 +42,7 @@ export const addNewTaskForUser = async (userId, taskId, taskData) => {
 	}
 };
 
+// fetch existing task list for an user
 export const getTaskList = async (userId) => {
 	try {
 		const app = getFirebaseApp();
@@ -53,6 +56,7 @@ export const getTaskList = async (userId) => {
 	}
 };
 
+// fetch a particular task for an user
 export const getTask = async (taskId, userId) => {
 	try {
 		const app = getFirebaseApp();
@@ -66,6 +70,7 @@ export const getTask = async (taskId, userId) => {
 	}
 };
 
+// delete a task from database
 export const deleteTask = async (userId, taskId) => {
 	try {
 		const app = getFirebaseApp();
@@ -78,6 +83,7 @@ export const deleteTask = async (userId, taskId) => {
 	}
 };
 
+// edit a task
 export const editTask = async (userId, taskId, taskData) => {
 	try {
 		const app = getFirebaseApp();

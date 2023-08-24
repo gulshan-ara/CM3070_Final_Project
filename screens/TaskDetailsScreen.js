@@ -13,7 +13,6 @@ import CustomAlert from "../components/CustomAlert";
 
 const TaskDetailsScreen = ({ navigation, route }) => {
 	// retrieving data passed during navigation
-	console.log("task details screen", route.params);
 	const taskObject = route.params;
 	const title = taskObject.taskName;
 	const description = taskObject.taskDetails;
