@@ -2,20 +2,21 @@
 
 // Import libraries
 import {
+	ActivityIndicator,
 	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
 	View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 // Import components & functions from this project
 import HeaderTabButton from "../components/HeaderTabButton";
 import TaskView from "../components/TaskView";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { getTaskList } from "../utils/databaseHelper";
+import { editTask, getTaskList } from "../utils/databaseHelper";
 import CustomButton from "../components/CustomButton";
 
 const OpeningModalView = () => {
@@ -45,7 +46,9 @@ const HomeScreen = ({ navigation, route }) => {
 	// user id is stored for fetching other related data's of current user
 	const userId = route.params.userId;
 	const [showAlert, setShowAlert] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [taskList, setTaskList] = useState([]);
+	const [taskData, setTaskData] = useState({});
 
 	// Side effect on page load
 	/** In this effect hook, A navigation related icon added in the header of the screen
@@ -77,18 +80,20 @@ const HomeScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		const fetchTaskList = async () => {
 			try {
+				setIsLoading(true);
 				const retrievedtaskList = await getTaskList(userId);
 				setTaskList(retrievedtaskList);
+				setIsLoading(false);
 			} catch (error) {
 				console.log(error);
+				setIsLoading(false);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 		fetchTaskList();
+		// setIsLoading(false);
 	}, [taskList]);
-
-	useEffect(() => {
-		setShowAlert(true);
-	}, []);
 
 	// Main UI renderer
 	return (
@@ -99,6 +104,15 @@ const HomeScreen = ({ navigation, route }) => {
 				<CustomLinkText title="Upcoming" />
 				<CustomLinkText title="Completed" />
 			</View>
+
+			{/* loading indicator */}
+			{isLoading && (
+				<ActivityIndicator
+					size="large"
+					color="black"
+					style={{ marginVertical: 200 }}
+				/>
+			)}
 			{/* view to render no task is added yet */}
 			{(taskList === null || taskList === []) && (
 				<View style={styles.midContainer}>
@@ -124,48 +138,61 @@ const HomeScreen = ({ navigation, route }) => {
 				<ScrollView style={{ height: "88%" }}>
 					{/* Iterating over the task array */}
 					{Object.values(taskList).map((item) => {
-						return (
-							// Custom component used to render the view of task
-							<TaskView
-								key={item.taskName}
-								taskName={item.taskName}
-								dueDate={item.dueDate}
-								priorityStatus={item.priorityStatus}
-								recurrenceStatus={item.recurrenceStatus}
-								onPress={() =>
-									navigation.navigate("Task Details", {
-										taskName: item.taskName,
-										taskDetails: item.taskDetails,
-										priorityStatus: item.priorityStatus,
-										startDate: item.startDate,
-										dueDate: item.dueDate,
-										recurrenceStatus: item.recurrenceStatus,
-										taskId: item.taskId,
-										userId: userId,
-									})
-								}
-							/>
-						);
+						if (item.completed !== true)
+							return (
+								// Custom component used to render the view of task
+								<TaskView
+									key={item.taskName}
+									taskName={item.taskName}
+									dueDate={item.dueDate}
+									priorityStatus={item.priorityStatus}
+									recurrenceStatus={item.recurrenceStatus}
+									onPress={() =>
+										navigation.navigate("Task Details", {
+											taskName: item.taskName,
+											taskDetails: item.taskDetails,
+											priorityStatus: item.priorityStatus,
+											startDate: item.startDate,
+											dueDate: item.dueDate,
+											recurrenceStatus:
+												item.recurrenceStatus,
+											taskId: item.taskId,
+											userId: userId,
+										})
+									}
+									onLongPress={() => {
+										setTaskData(item);
+										setShowAlert(true);
+									}}
+								/>
+							);
 					})}
 				</ScrollView>
 			)}
-			{/* <AwesomeAlert
+			<AwesomeAlert
 				show={showAlert}
-				title="Welcome to I-do"
+				title="Mark as Completed?"
 				closeOnTouchOutside={true}
 				closeOnHardwareBackPress={false}
 				showConfirmButton={true}
-				confirmText="Got It"
+				showCancelButton={true}
+				cancelText="No"
+				confirmText="Yes"
 				confirmButtonColor="dodgerblue"
+				cancelButtonColor="lightgrey"
 				titleStyle={{ letterSpacing: 0.3 }}
 				onConfirmPressed={() => {
+					const updatedTaskData = { ...taskData, completed: true };
+					editTask(userId, taskData.taskId, updatedTaskData);
 					setShowAlert(false);
 				}}
 				onDismiss={() => {
 					setShowAlert(false);
 				}}
-				customView={<OpeningModalView />}
-			/> */}
+				onCancelPressed={() => {
+					setShowAlert(false);
+				}}
+			/>
 		</View>
 	);
 };

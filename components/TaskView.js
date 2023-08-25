@@ -17,6 +17,7 @@ const TaskView = (props) => {
 		<TouchableOpacity
 			style={{ ...styles.container}}
 			onPress={props.onPress}
+			onLongPress={props.onLongPress}
 			accessible={true} 
 			accessibilityLabel="This is a task view"
 		>
