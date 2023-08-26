@@ -6,6 +6,8 @@ import { Feather } from "@expo/vector-icons";
 import CustomButton from "../components/CustomButton";
 import { registerNewUser } from "../utils/authHandler";
 import { addNewUserToDB } from "../utils/databaseHelper";
+import { useDispatch } from "react-redux";
+import { userInfo } from "../redux_store/userSlice";
 
 // component for sign up screen
 const SignUpForm = ({ navigation }) => {
@@ -17,6 +19,7 @@ const SignUpForm = ({ navigation }) => {
 	const [password, setPassword] = useState(null);
 	const [confirmedPassword, setConfirmedPassword] = useState(null);
 	const [userId, setUserId] = useState(null);
+	const dispatch = useDispatch();
 
 	// identifies if password should be visible or not
 	const handleVisibilityChange = () => {
@@ -44,6 +47,7 @@ const SignUpForm = ({ navigation }) => {
 			await addNewUserToDB(name, email, userId);
 			// makes userId publicly accessible
 			setUserId(userId);
+			dispatch(userInfo({ userId }));
 			console.log("added user!!");
 		} else {
 			console.log("try again");

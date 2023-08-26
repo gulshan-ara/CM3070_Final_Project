@@ -77,7 +77,7 @@ export const deleteTask = async (userId, taskId) => {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
 		const taskRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
-		console.log(taskRef);
+		
 		await remove(taskRef);
 	} catch (error) {
 		console.log(error);
