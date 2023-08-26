@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation, route }) => {
 	const [alltaskList, setAllTaskList] = useState([]);
 	const [completedTaskList, setCompletedTaskList] = useState([]);
 	const [taskData, setTaskData] = useState({});
-	const [isHome, setIsHome] = useState(false);
+	const [isHome, setIsHome] = useState(true);
 	const [isCompleted, setIsCompleted] = useState(false);
 	const [isUpcoming, setIsUpcoming] = useState(false);
 
@@ -97,7 +97,6 @@ const HomeScreen = ({ navigation, route }) => {
 				setIsLoading(true);
 				const retrievedtaskList = await getTaskList(userId);
 				setAllTaskList(retrievedtaskList);
-				setIsHome(true);
 				const completedTasks = filteringCompletedTasks(
 					retrievedtaskList
 				);

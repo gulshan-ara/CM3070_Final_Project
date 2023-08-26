@@ -1,7 +1,7 @@
 /** Here New task adding UI & logic is implemented. */
 
 // import necessary libraries & packages
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import uuid from "react-native-uuid";
 
@@ -23,12 +23,6 @@ const NewTask = ({ navigation, route }) => {
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
 	const userId = route.params.userId;
-
-	// checks when to disable the submit button
-	let isDisabled = false;
-	if (taskName === "" || dueDate === null) {
-		isDisabled = true;
-	}
 
 	const priorityStatusList = [
 		{ text: "High" },
@@ -134,22 +128,30 @@ const NewTask = ({ navigation, route }) => {
 			{/* Custom Button component to handle form submission */}
 			<CustomButton
 				buttonText="Add task"
-				isdisabled={isDisabled}
 				onPress={() => {
 					try {
-						// add task to db here
-						const taskID = uuid.v4();
-						addTaskToDb(userId, taskID);
-						navigation.navigate("Task Details", {
-							taskName: taskName,
-							taskDetails: taskDetails,
-							priorityStatus: priorityStatus,
-							startDate: startDate,
-							dueDate: dueDate,
-							recurrenceStatus: recurrenceStatus,
-							taskId: taskID,
-							userId: userId,
-						});
+						if (
+							new Date(dueDate).getTime() <
+							new Date(startDate).getTime()
+						) {
+							Alert.alert(
+								"Start date can't be later than due date."
+							);
+						} else {
+							// add task to db here
+							const taskID = uuid.v4();
+							addTaskToDb(userId, taskID);
+							navigation.navigate("Task Details", {
+								taskName: taskName,
+								taskDetails: taskDetails,
+								priorityStatus: priorityStatus,
+								startDate: startDate,
+								dueDate: dueDate,
+								recurrenceStatus: recurrenceStatus,
+								taskId: taskID,
+								userId: userId,
+							});
+						}
 					} catch (error) {
 						console.log(error.message);
 					}
