@@ -47,8 +47,12 @@ const HomeScreen = ({ navigation, route }) => {
 	const userId = route.params.userId;
 	const [showAlert, setShowAlert] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [taskList, setTaskList] = useState([]);
+	const [alltaskList, setAllTaskList] = useState([]);
+	const [completedTaskList, setCompletedTaskList] = useState([]);
 	const [taskData, setTaskData] = useState({});
+	const [isHome, setIsHome] = useState(false);
+	const [isCompleted, setIsCompleted] = useState(false);
+	const [isUpcoming, setIsUpcoming] = useState(false);
 
 	// Side effect on page load
 	/** In this effect hook, A navigation related icon added in the header of the screen
@@ -77,12 +81,27 @@ const HomeScreen = ({ navigation, route }) => {
 		});
 	}, []);
 
+	const filteringCompletedTasks = (taskList) => {
+		const taskArray = [];
+		Object.values(taskList).map((item) => {
+			if (item.completed === true) {
+				taskArray.push(item);
+			}
+		});
+		return taskArray;
+	};
+
 	useEffect(() => {
 		const fetchTaskList = async () => {
 			try {
 				setIsLoading(true);
 				const retrievedtaskList = await getTaskList(userId);
-				setTaskList(retrievedtaskList);
+				setAllTaskList(retrievedtaskList);
+				setIsHome(true);
+				const completedTasks = filteringCompletedTasks(
+					retrievedtaskList
+				);
+				setCompletedTaskList(completedTasks);
 				setIsLoading(false);
 			} catch (error) {
 				console.log(error);
@@ -93,16 +112,37 @@ const HomeScreen = ({ navigation, route }) => {
 		};
 		fetchTaskList();
 		// setIsLoading(false);
-	}, [taskList]);
+	}, [alltaskList]);
 
 	// Main UI renderer
 	return (
 		<View style={styles.container}>
 			{/* Top link conatiner - still under development */}
 			<View style={styles.topLinkContainer}>
-				<CustomLinkText title="Home" />
-				<CustomLinkText title="Upcoming" />
-				<CustomLinkText title="Completed" />
+				<CustomLinkText
+					title="Home"
+					onPress={() => {
+						setIsHome(true);
+						setIsCompleted(false);
+						setIsUpcoming(false);
+					}}
+				/>
+				<CustomLinkText
+					title="Upcoming"
+					onPress={() => {
+						setIsHome(false);
+						setIsCompleted(false);
+						setIsUpcoming(true);
+					}}
+				/>
+				<CustomLinkText
+					title="Completed"
+					onPress={() => {
+						setIsHome(false);
+						setIsCompleted(true);
+						setIsUpcoming(false);
+					}}
+				/>
 			</View>
 
 			{/* loading indicator */}
@@ -114,7 +154,7 @@ const HomeScreen = ({ navigation, route }) => {
 				/>
 			)}
 			{/* view to render no task is added yet */}
-			{(taskList === null || taskList === []) && (
+			{(alltaskList === null || alltaskList === []) && (
 				<View style={styles.midContainer}>
 					<Text
 						style={{
@@ -134,10 +174,10 @@ const HomeScreen = ({ navigation, route }) => {
 				</View>
 			)}
 			{/* Scrollable view to render items from data array */}
-			{taskList !== null && (
+			{isHome && alltaskList !== null && (
 				<ScrollView style={{ height: "88%" }}>
 					{/* Iterating over the task array */}
-					{Object.values(taskList).map((item) => {
+					{Object.values(alltaskList).map((item) => {
 						if (item.completed !== true)
 							return (
 								// Custom component used to render the view of task
@@ -166,6 +206,41 @@ const HomeScreen = ({ navigation, route }) => {
 									}}
 								/>
 							);
+					})}
+				</ScrollView>
+			)}
+
+			{/* Scrollable view to render items from data array */}
+			{isCompleted && completedTaskList !== null && (
+				<ScrollView style={{ height: "88%" }}>
+					{/* Iterating over the task array */}
+					{Object.values(completedTaskList).map((item) => {
+						return (
+							// Custom component used to render the view of task
+							<TaskView
+								key={item.taskName}
+								taskName={item.taskName}
+								dueDate={item.dueDate}
+								priorityStatus={item.priorityStatus}
+								recurrenceStatus={item.recurrenceStatus}
+								onPress={() =>
+									navigation.navigate("Task Details", {
+										taskName: item.taskName,
+										taskDetails: item.taskDetails,
+										priorityStatus: item.priorityStatus,
+										startDate: item.startDate,
+										dueDate: item.dueDate,
+										recurrenceStatus: item.recurrenceStatus,
+										taskId: item.taskId,
+										userId: userId,
+									})
+								}
+								onLongPress={() => {
+									setTaskData(item);
+									setShowAlert(true);
+								}}
+							/>
+						);
 					})}
 				</ScrollView>
 			)}
