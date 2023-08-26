@@ -137,6 +137,8 @@ const NewTask = ({ navigation, route }) => {
 							Alert.alert(
 								"Start date can't be later than due date."
 							);
+						} else if (taskName === null || taskName === "") {
+							Alert.alert("Task name can't be empty.");
 						} else {
 							// add task to db here
 							const taskID = uuid.v4();

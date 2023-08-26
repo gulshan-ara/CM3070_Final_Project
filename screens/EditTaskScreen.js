@@ -1,5 +1,5 @@
 // import libraries and packages
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 
 // import components from this project
@@ -54,18 +54,6 @@ const EditTaskScreen = ({ navigation, route }) => {
 			taskDetails,
 			recurrenceStatus,
 		});
-	};
-
-	// checking if there's any changes happened to enable the edit button
-	const hasChanges = () => {
-		return (
-			initialValues.taskName != taskName ||
-			initialValues.taskDetails != taskDetails ||
-			initialValues.startDate != startDate ||
-			initialValues.dueDate != dueDate ||
-			initialValues.priorityStatus != priorityStatus ||
-			initialValues.recurrenceStatus != recurrenceStatus
-		);
 	};
 
 	return (
@@ -145,14 +133,23 @@ const EditTaskScreen = ({ navigation, route }) => {
 			/>
 
 			{/* render the edit buttton only if there's changes in values from initial values */}
-			{hasChanges() && (
-				<CustomButton
-					buttonText="Edit task"
-					onPress={() => {
+			<CustomButton
+				buttonText="Edit task"
+				onPress={() => {
+					if (
+						taskName === initialValues.taskName &&
+						taskDetails === initialValues.taskDetails &&
+						startDate === initialValues.startDate &&
+						dueDate === initialValues.dueDate &&
+						priorityStatus === initialValues.priorityStatus &&
+						recurrenceStatus === initialValues.recurrenceStatus
+					) {
+						Alert.alert("No changes found to edit the task.");
+					} else {
 						setShowAlert(true);
-					}}
-				/>
-			)}
+					}
+				}}
+			/>
 
 			<CustomAlert
 				isVisible={showAlert}
