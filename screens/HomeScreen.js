@@ -18,6 +18,7 @@ import TaskView from "../components/TaskView";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { editTask, getTaskList } from "../utils/databaseHelper";
 import CustomButton from "../components/CustomButton";
+import { useSelector } from "react-redux";
 
 const OpeningModalView = () => {
 	return (
@@ -44,7 +45,8 @@ const CustomLinkText = ({ title, onPress }) => {
 // The main component for home screen
 const HomeScreen = ({ navigation, route }) => {
 	// user id is stored for fetching other related data's of current user
-	const userId = route.params.userId;
+	// const userId = route.params.userId;
+	const userId = useSelector((state) => state.user.userId);
 	const [showAlert, setShowAlert] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [alltaskList, setAllTaskList] = useState([]);

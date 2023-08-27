@@ -11,6 +11,7 @@ import CustomTextInput from "../components/CustomTextInput";
 import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
 import { addNewTaskForUser, addTask } from "../utils/databaseHelper";
+import { useSelector } from "react-redux";
 
 const NewTask = ({ navigation, route }) => {
 	// state variabless to handle value change
@@ -22,7 +23,7 @@ const NewTask = ({ navigation, route }) => {
 	const [showRecurrenceModal, setShowRecurrenceModal] = useState(false);
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
-	const userId = route.params.userId;
+	const userId = useSelector((state) => state.user.userId);
 
 	const priorityStatusList = [
 		{ text: "High" },

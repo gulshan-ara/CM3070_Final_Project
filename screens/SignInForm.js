@@ -5,6 +5,8 @@ import InputField from "../components/authComponents/InputField";
 import { Feather } from "@expo/vector-icons";
 import CustomButton from "../components/CustomButton";
 import { signInExistingUser } from "../utils/authHandler";
+import { useDispatch } from "react-redux";
+import { userInfo } from "../redux_store/userSlice";
 
 // component for sign in screen
 const SignInForm = ({ navigation }) => {
@@ -14,6 +16,7 @@ const SignInForm = ({ navigation }) => {
 	const [email, setEmail] = useState(null);
 	const [password, setPassword] = useState(null);
 	const [userId, setUserId] = useState(null);
+	const dispatch = useDispatch();
 
 	// decides if password should be visible or not
 	const handleVisibilityChange = () => {
@@ -31,7 +34,9 @@ const SignInForm = ({ navigation }) => {
 			// login action authenticated via firebase
 			signInExistingUser(email, password);
 			// storing user Id
-			setUserId(email.split("@")[0]);
+			const userId = email.split("@")[0];
+			setUserId(userId);
+			dispatch(userInfo({ userId }));
 			console.log("Logged In");
 		} else {
 			console.log("try again");
@@ -43,7 +48,7 @@ const SignInForm = ({ navigation }) => {
 		if (userId !== null && userId !== undefined) {
 			navigation.navigate("Home", {
 				screen: "I-do",
-				params: { userId: userId },
+				// params: { userId: userId },
 			});
 		}
 	}, [userId]);

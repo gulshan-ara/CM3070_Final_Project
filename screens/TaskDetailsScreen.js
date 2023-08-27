@@ -10,6 +10,7 @@ import CustomButton from "../components/CustomButton";
 import { deleteTask, getTask } from "../utils/databaseHelper";
 import AwesomeAlert from "react-native-awesome-alerts";
 import CustomAlert from "../components/CustomAlert";
+import { useSelector } from "react-redux";
 
 const TaskDetailsScreen = ({ navigation, route }) => {
 	// retrieving data passed during navigation
@@ -21,7 +22,7 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 	const priorityStatus = taskObject.priorityStatus;
 	const recurrenceStatus = taskObject.recurrenceStatus;
 	const taskId = taskObject.taskId;
-	const userId = taskObject.userId;
+	const userId = useSelector((state) => state.user.userId);
 	const [showAlert, setShowAlert] = useState(false);
 
 	useEffect(() => {

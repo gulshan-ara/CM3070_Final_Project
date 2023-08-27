@@ -9,11 +9,12 @@ import CustomModal from "../components/CustomModal";
 import CustomButton from "../components/CustomButton";
 import { editTask } from "../utils/databaseHelper";
 import CustomAlert from "../components/CustomAlert";
+import { useSelector } from "react-redux";
 
 const EditTaskScreen = ({ navigation, route }) => {
 	// retreiving data passed via navigation
 	const initialValues = route.params.taskObj;
-	const userId = initialValues.userId;
+	const userId = useSelector((state) => state.user.userId);
 	const [showAlert, setShowAlert] = useState(false);
 	// setting the initial value of variables
 	const [taskName, setTaskName] = useState(initialValues.taskName);

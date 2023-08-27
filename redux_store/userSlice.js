@@ -9,7 +9,6 @@ const userSlice = createSlice({
       userInfo: (state, action) => {
           const payload = action.payload;
           state.userId = payload.userId;
-          console.log(state);
       }
   }
 });
