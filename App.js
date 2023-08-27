@@ -1,12 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import {
-	ActivityIndicator,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { StyleSheet } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";

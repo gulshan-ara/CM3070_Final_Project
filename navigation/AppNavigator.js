@@ -10,7 +10,6 @@ import { NavigationContainer } from "@react-navigation/native";
 
 // import functions & files from this project
 import MainNavigator from "./MainNavigator";
-import { Text, View } from "react-native";
 
 const AppNavigator = () => {
 	return (

@@ -43,9 +43,8 @@ const CustomLinkText = ({ title, onPress }) => {
 };
 
 // The main component for home screen
-const HomeScreen = ({ navigation, route }) => {
+const HomeScreen = ({ navigation }) => {
 	// user id is stored for fetching other related data's of current user
-	// const userId = route.params.userId;
 	const userId = useSelector((state) => state.user.userId);
 	const [showAlert, setShowAlert] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +82,7 @@ const HomeScreen = ({ navigation, route }) => {
 		});
 	}, []);
 
+	// filtering out completed tasks from db
 	const filteringCompletedTasks = (taskList) => {
 		const taskArray = [];
 		Object.values(taskList).map((item) => {
@@ -93,16 +93,22 @@ const HomeScreen = ({ navigation, route }) => {
 		return taskArray;
 	};
 
+	// fetching task list from db
 	useEffect(() => {
 		const fetchTaskList = async () => {
 			try {
+				// loading indicator until data is fetched
 				setIsLoading(true);
+				// data fetching from db
 				const retrievedtaskList = await getTaskList(userId);
+				// storing task list
 				setAllTaskList(retrievedtaskList);
 				const completedTasks = filteringCompletedTasks(
 					retrievedtaskList
 				);
+				// storing completed tasks list
 				setCompletedTaskList(completedTasks);
+				// hide loading indicator after data is fetched
 				setIsLoading(false);
 			} catch (error) {
 				console.log(error);

@@ -23,8 +23,10 @@ const NewTask = ({ navigation, route }) => {
 	const [showRecurrenceModal, setShowRecurrenceModal] = useState(false);
 	const [priorityStatus, setPriorityStatus] = useState("High");
 	const [recurrenceStatus, setRecurrenceStatus] = useState("No");
+	// fetching user id from redux store
 	const userId = useSelector((state) => state.user.userId);
 
+	// priority status options
 	const priorityStatusList = [
 		{ text: "High" },
 		{ text: "Low" },
@@ -32,6 +34,16 @@ const NewTask = ({ navigation, route }) => {
 		{ text: "Special" },
 	];
 
+	// recurrence status list
+	const recurrenceStatusList = [
+		{ text: "No" },
+		{ text: "Everyday" },
+		{ text: "Every Week" },
+		{ text: "Every Month" },
+		{ text: "Every Year" },
+	];
+
+	// adding new task to database function
 	const addTaskToDb = async (userId, taskId) => {
 		const taskData = {
 			taskId,
@@ -44,14 +56,6 @@ const NewTask = ({ navigation, route }) => {
 		};
 		await addNewTaskForUser(userId, taskId, taskData);
 	};
-
-	const recurrenceStatusList = [
-		{ text: "No" },
-		{ text: "Everyday" },
-		{ text: "Every Week" },
-		{ text: "Every Month" },
-		{ text: "Every Year" },
-	];
 
 	// render the screen
 	return (
