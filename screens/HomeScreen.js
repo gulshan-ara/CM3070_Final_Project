@@ -42,7 +42,16 @@ const HomeScreen = ({ navigation }) => {
 	const [isHome, setIsHome] = useState(true);
 	const [isCompleted, setIsCompleted] = useState(false);
 	const [isUpcoming, setIsUpcoming] = useState(false);
-	// console.log(Object.keys(alltaskList).length);
+	const [currentDate, setCurrentDate] = useState(new Date());
+
+	// side effect to update date daily
+	useEffect(() => {
+		// running the effect everyday
+		const interval = setInterval(() => {
+			setCurrentDate(new Date());
+		}, 86400000);
+		return () => clearInterval(interval);
+	}, []);
 
 	// Side effect on page load
 	/** In this effect hook, A navigation related icon added in the header of the screen
@@ -82,6 +91,21 @@ const HomeScreen = ({ navigation }) => {
 		return taskArray;
 	};
 
+	const filteringUpcomingTasks = (taskList) => {
+		const tasksOfToday = [];
+		Object.values(taskList).map((item) => {
+			const taskDueDate = new Date(item.dueDate).getTime();
+			const todaysDate = currentDate.getTime();
+			if (
+				todaysDate > taskDueDate &&
+				todaysDate < taskDueDate + 86400000
+			) {
+				tasksOfToday.push(item);
+			}
+		});
+		return tasksOfToday;
+	};
+
 	// fetching task list from db
 	useEffect(() => {
 		const fetchTaskList = async () => {
@@ -97,6 +121,7 @@ const HomeScreen = ({ navigation }) => {
 				);
 				// storing completed tasks list
 				setCompletedTaskList(completedTasks);
+				// filteringUpcomingTasks(completedTasks);
 				// hide loading indicator after data is fetched
 				setIsLoading(false);
 			} catch (error) {
@@ -155,16 +180,25 @@ const HomeScreen = ({ navigation }) => {
 					<TaskView
 						taskName={Object.values(alltaskList)[0].taskName}
 						dueDate={Object.values(alltaskList)[0].dueDate}
-						priorityStatus={Object.values(alltaskList)[0].priorityStatus}
-						recurrenceStatus={Object.values(alltaskList)[0].recurrenceStatus}
+						priorityStatus={
+							Object.values(alltaskList)[0].priorityStatus
+						}
+						recurrenceStatus={
+							Object.values(alltaskList)[0].recurrenceStatus
+						}
 						onPress={() =>
 							navigation.navigate("Task Details", {
-								taskName: Object.values(alltaskList)[0].taskName,
-								taskDetails: Object.values(alltaskList)[0].taskDetails,
-								priorityStatus: Object.values(alltaskList)[0].priorityStatus,
-								startDate: Object.values(alltaskList)[0].startDate,
+								taskName: Object.values(alltaskList)[0]
+									.taskName,
+								taskDetails: Object.values(alltaskList)[0]
+									.taskDetails,
+								priorityStatus: Object.values(alltaskList)[0]
+									.priorityStatus,
+								startDate: Object.values(alltaskList)[0]
+									.startDate,
 								dueDate: Object.values(alltaskList)[0].dueDate,
-								recurrenceStatus: Object.values(alltaskList)[0].recurrenceStatus,
+								recurrenceStatus: Object.values(alltaskList)[0]
+									.recurrenceStatus,
 								taskId: Object.values(alltaskList)[0].taskId,
 								userId: userId,
 							})
@@ -198,31 +232,40 @@ const HomeScreen = ({ navigation }) => {
 					{Object.values(alltaskList).map((item) => {
 						if (item.completed !== true)
 							return (
-								// Custom component used to render the view of task
-								<TaskView
-									key={item.taskName}
-									taskName={item.taskName}
-									dueDate={item.dueDate}
-									priorityStatus={item.priorityStatus}
-									recurrenceStatus={item.recurrenceStatus}
-									onPress={() =>
-										navigation.navigate("Task Details", {
-											taskName: item.taskName,
-											taskDetails: item.taskDetails,
-											priorityStatus: item.priorityStatus,
-											startDate: item.startDate,
-											dueDate: item.dueDate,
-											recurrenceStatus:
-												item.recurrenceStatus,
-											taskId: item.taskId,
-											userId: userId,
-										})
-									}
-									onLongPress={() => {
-										setTaskData(item);
-										setShowAlert(true);
-									}}
-								/>
+								<>
+									{/* <Text>{currentDate.toISOString()}</Text> */}
+									{/* Custom component used to render the view
+									of task */}
+									<TaskView
+										key={item.taskName}
+										taskName={item.taskName}
+										dueDate={item.dueDate}
+										priorityStatus={item.priorityStatus}
+										recurrenceStatus={item.recurrenceStatus}
+										onPress={() =>
+											navigation.navigate(
+												"Task Details",
+												{
+													taskName: item.taskName,
+													taskDetails:
+														item.taskDetails,
+													priorityStatus:
+														item.priorityStatus,
+													startDate: item.startDate,
+													dueDate: item.dueDate,
+													recurrenceStatus:
+														item.recurrenceStatus,
+													taskId: item.taskId,
+													userId: userId,
+												}
+											)
+										}
+										onLongPress={() => {
+											setTaskData(item);
+											setShowAlert(true);
+										}}
+									/>
+								</>
 							);
 					})}
 				</ScrollView>
