@@ -20,18 +20,6 @@ import { editTask, getTaskList } from "../utils/databaseHelper";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
 
-const OpeningModalView = () => {
-	return (
-		<View style={styles.modalView}>
-			<Text style={styles.modalText}>For better app usage</Text>
-			<Text>- Press the top icon to add new task.</Text>
-			<Text>- Press bottom Icons to navigate through app. </Text>
-			<Text>- Press a taskcard to find task details.</Text>
-			<Text>- LongPress a task card to see options.</Text>
-		</View>
-	);
-};
-
 // A component used in top link bar
 // the repetative code for each link is turned into a function to increase readability & usability
 const CustomLinkText = ({ title, onPress }) => {
@@ -54,6 +42,7 @@ const HomeScreen = ({ navigation }) => {
 	const [isHome, setIsHome] = useState(true);
 	const [isCompleted, setIsCompleted] = useState(false);
 	const [isUpcoming, setIsUpcoming] = useState(false);
+	// console.log(Object.keys(alltaskList).length);
 
 	// Side effect on page load
 	/** In this effect hook, A navigation related icon added in the header of the screen
@@ -161,27 +150,49 @@ const HomeScreen = ({ navigation }) => {
 				/>
 			)}
 			{/* view to render no task is added yet */}
-			{(alltaskList === null || alltaskList === []) && (
-				<View style={styles.midContainer}>
-					<Text
-						style={{
-							fontSize: 16,
-							fontWeight: "600",
-							letterSpacing: 0.3,
-						}}
-					>
-						No task added yet😢
-					</Text>
-					<CustomButton
-						buttonText="Add Task"
+			{Object.keys(alltaskList).length === 1 && (
+				<View>
+					<TaskView
+						taskName={Object.values(alltaskList)[0].taskName}
+						dueDate={Object.values(alltaskList)[0].dueDate}
+						priorityStatus={Object.values(alltaskList)[0].priorityStatus}
+						recurrenceStatus={Object.values(alltaskList)[0].recurrenceStatus}
 						onPress={() =>
-							navigation.navigate("New Task", { userId: userId })
+							navigation.navigate("Task Details", {
+								taskName: Object.values(alltaskList)[0].taskName,
+								taskDetails: Object.values(alltaskList)[0].taskDetails,
+								priorityStatus: Object.values(alltaskList)[0].priorityStatus,
+								startDate: Object.values(alltaskList)[0].startDate,
+								dueDate: Object.values(alltaskList)[0].dueDate,
+								recurrenceStatus: Object.values(alltaskList)[0].recurrenceStatus,
+								taskId: Object.values(alltaskList)[0].taskId,
+								userId: userId,
+							})
 						}
 					/>
+					<View style={styles.midContainer}>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: "600",
+								letterSpacing: 0.3,
+							}}
+						>
+							No task added yet😢
+						</Text>
+						<CustomButton
+							buttonText="Add Task"
+							onPress={() =>
+								navigation.navigate("New Task", {
+									userId: userId,
+								})
+							}
+						/>
+					</View>
 				</View>
 			)}
 			{/* Scrollable view to render items from data array */}
-			{isHome && alltaskList !== null && (
+			{isHome && Object.keys(alltaskList).length > 1 && (
 				<ScrollView style={{ height: "88%" }}>
 					{/* Iterating over the task array */}
 					{Object.values(alltaskList).map((item) => {
@@ -299,7 +310,7 @@ const styles = StyleSheet.create({
 	midContainer: {
 		height: 400,
 		alignItems: "center",
-		marginVertical: 200,
+		marginVertical: 100,
 	},
 	modalView: {
 		width: 250,

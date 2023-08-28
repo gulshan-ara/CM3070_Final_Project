@@ -16,10 +16,23 @@ export const addNewUserToDB = async (name, email, userId) => {
 		const dbRef = ref(getDatabase(app));
 		const userRef = child(dbRef, `users/${userId}`);
 
+		const initialTask = {
+			welcomeTask: {
+				dueDate: "Long press to mark task as completed",
+				priorityStatus: "Press to see task details",
+				recurrenceStatus: "No",
+				taskName: "Welcome to I-do",
+				taskId: "welcomeTask",
+				taskDetails: "",
+				startDate: ""
+			},
+		};
+
 		const userData = {
 			name,
 			email,
 			userId,
+			tasks: initialTask
 		};
 
 		await set(userRef, userData);
@@ -56,7 +69,6 @@ export const getTaskList = async (userId) => {
 	}
 };
 
-
 // fetch a particular task for an user
 export const getTask = async (taskId, userId) => {
 	try {
@@ -77,7 +89,7 @@ export const deleteTask = async (userId, taskId) => {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
 		const taskRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
-		
+
 		await remove(taskRef);
 	} catch (error) {
 		console.log(error);
