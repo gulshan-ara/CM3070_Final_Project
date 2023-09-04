@@ -4,7 +4,7 @@ import React from "react";
 import TaskView from "./TaskView";
 import { useNavigation } from "@react-navigation/native";
 
-// Here task list & other ne
+// Here task list & other necessary values are passed as props
 const GroupedTasks = ({
 	label,
 	taskList,

@@ -40,6 +40,8 @@ const HomeScreen = ({ navigation }) => {
 	const [alltaskList, setAllTaskList] = useState([]);
 	const [completedTaskList, setCompletedTaskList] = useState([]);
 	const [todaysTaskList, setTodaysTaskList] = useState([]);
+	const [overDueTaskList, setOverDueTaskList] = useState([]);
+	const [tomorrowsTaskList, setTomorrowsTaskList] = useState([]);
 	const [taskData, setTaskData] = useState({});
 	const [isHome, setIsHome] = useState(true);
 	const [isCompleted, setIsCompleted] = useState(false);
@@ -93,19 +95,47 @@ const HomeScreen = ({ navigation }) => {
 		return taskArray;
 	};
 
+	// filtering tasks due today
 	const filteringTodayTasks = (taskList) => {
 		const tasksOfToday = [];
 		Object.values(taskList).map((item) => {
-			const taskDueDate = new Date(item.dueDate).getTime();
-			const todaysDate = currentDate.getTime();
-			if (
-				todaysDate > taskDueDate &&
-				todaysDate < taskDueDate + 86400000
-			) {
+			const taskDueDate = new Date(item.dueDate).toDateString();
+			const todaysDate = currentDate.toDateString();
+			if (todaysDate === taskDueDate) {
 				tasksOfToday.push(item);
 			}
 		});
 		return tasksOfToday;
+	};
+
+	// filtering overdue tasks
+	const filteringOverDueTasks = (taskList) => {
+		const overDueTasks = [];
+		Object.values(taskList).map((item) => {
+			const taskDueDate = new Date(item.dueDate).getTime();
+			const todaysDate = currentDate.getTime();
+			if (
+				todaysDate - 86400000 > taskDueDate &&
+				item.completed !== true
+			) {
+				overDueTasks.push(item);
+			}
+		});
+		return overDueTasks;
+	};
+
+	// filteringg tasks for tomorrow
+	const filteringTomorrowsTasks = (taskList) => {
+		const tasksOfTomorrow = [];
+		Object.values(taskList).map((item) => {
+			const taskDueDate = new Date(item.dueDate).toDateString();
+			const tomorrowsDate = new Date(currentDate.getTime() + 86400000).toDateString();
+			console.log(tomorrowsDate);
+			if (tomorrowsDate === taskDueDate) {
+				tasksOfTomorrow.push(item);
+			}
+		});
+		return tasksOfTomorrow;
 	};
 
 	// fetching task list from db
@@ -124,6 +154,8 @@ const HomeScreen = ({ navigation }) => {
 				// storing completed tasks list
 				setCompletedTaskList(completedTasks);
 				setTodaysTaskList(filteringTodayTasks(retrievedtaskList));
+				setTomorrowsTaskList(filteringTomorrowsTasks(retrievedtaskList));
+				setOverDueTaskList(filteringOverDueTasks(retrievedtaskList));
 				// hide loading indicator after data is fetched
 				setIsLoading(false);
 			} catch (error) {
@@ -239,18 +271,18 @@ const HomeScreen = ({ navigation }) => {
 						setTaskData={setTaskData}
 						userId={userId}
 					></GroupedTasks>
-					{/* Completed tasks -- THIS IS TEMPORARY. SHOW TOMORROW'S TASK HERE */}
+					{/* SHOW TOMORROW'S TASK HERE */}
 					<GroupedTasks
-						label="Completed"
-						taskList={completedTaskList}
+						label="Tomorrow"
+						taskList={tomorrowsTaskList}
 						setShowAlert={setShowAlert}
 						setTaskData={setTaskData}
 						userId={userId}
 					></GroupedTasks>
-					{/* All tasks - FILTER COMPLETED & OTHER GROUPED TASKS */}
+					{/* Overdue tasks */}
 					<GroupedTasks
-						label="All Tasks"
-						taskList={alltaskList}
+						label="OverDue Tasks"
+						taskList={overDueTaskList}
 						setShowAlert={setShowAlert}
 						setTaskData={setTaskData}
 						userId={userId}
