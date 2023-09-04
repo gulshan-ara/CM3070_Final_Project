@@ -19,6 +19,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import { editTask, getTaskList } from "../utils/databaseHelper";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
+import GroupedTasks from "../components/GroupedTasks";
 
 // A component used in top link bar
 // the repetative code for each link is turned into a function to increase readability & usability
@@ -38,6 +39,7 @@ const HomeScreen = ({ navigation }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [alltaskList, setAllTaskList] = useState([]);
 	const [completedTaskList, setCompletedTaskList] = useState([]);
+	const [todaysTaskList, setTodaysTaskList] = useState([]);
 	const [taskData, setTaskData] = useState({});
 	const [isHome, setIsHome] = useState(true);
 	const [isCompleted, setIsCompleted] = useState(false);
@@ -91,7 +93,7 @@ const HomeScreen = ({ navigation }) => {
 		return taskArray;
 	};
 
-	const filteringUpcomingTasks = (taskList) => {
+	const filteringTodayTasks = (taskList) => {
 		const tasksOfToday = [];
 		Object.values(taskList).map((item) => {
 			const taskDueDate = new Date(item.dueDate).getTime();
@@ -121,7 +123,7 @@ const HomeScreen = ({ navigation }) => {
 				);
 				// storing completed tasks list
 				setCompletedTaskList(completedTasks);
-				// filteringUpcomingTasks(completedTasks);
+				setTodaysTaskList(filteringTodayTasks(retrievedtaskList));
 				// hide loading indicator after data is fetched
 				setIsLoading(false);
 			} catch (error) {
@@ -228,46 +230,31 @@ const HomeScreen = ({ navigation }) => {
 			{/* Scrollable view to render items from data array */}
 			{isHome && Object.keys(alltaskList).length > 1 && (
 				<ScrollView style={{ height: "88%" }}>
-					{/* Iterating over the task array */}
-					{Object.values(alltaskList).map((item) => {
-						if (item.completed !== true)
-							return (
-								<>
-									{/* <Text>{currentDate.toISOString()}</Text> */}
-									{/* Custom component used to render the view
-									of task */}
-									<TaskView
-										key={item.taskName}
-										taskName={item.taskName}
-										dueDate={item.dueDate}
-										priorityStatus={item.priorityStatus}
-										recurrenceStatus={item.recurrenceStatus}
-										onPress={() =>
-											navigation.navigate(
-												"Task Details",
-												{
-													taskName: item.taskName,
-													taskDetails:
-														item.taskDetails,
-													priorityStatus:
-														item.priorityStatus,
-													startDate: item.startDate,
-													dueDate: item.dueDate,
-													recurrenceStatus:
-														item.recurrenceStatus,
-													taskId: item.taskId,
-													userId: userId,
-												}
-											)
-										}
-										onLongPress={() => {
-											setTaskData(item);
-											setShowAlert(true);
-										}}
-									/>
-								</>
-							);
-					})}
+					{/* Showing tasks by group */}
+					{/* Today's Tasks */}
+					<GroupedTasks
+						label="Today"
+						taskList={todaysTaskList}
+						setShowAlert={setShowAlert}
+						setTaskData={setTaskData}
+						userId={userId}
+					></GroupedTasks>
+					{/* Completed tasks -- THIS IS TEMPORARY. SHOW TOMORROW'S TASK HERE */}
+					<GroupedTasks
+						label="Completed"
+						taskList={completedTaskList}
+						setShowAlert={setShowAlert}
+						setTaskData={setTaskData}
+						userId={userId}
+					></GroupedTasks>
+					{/* All tasks - FILTER COMPLETED & OTHER GROUPED TASKS */}
+					<GroupedTasks
+						label="All Tasks"
+						taskList={alltaskList}
+						setShowAlert={setShowAlert}
+						setTaskData={setTaskData}
+						userId={userId}
+					></GroupedTasks>
 				</ScrollView>
 			)}
 
