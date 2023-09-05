@@ -20,6 +20,8 @@ import { editTask, getTaskList } from "../utils/databaseHelper";
 import CustomButton from "../components/CustomButton";
 import { useSelector } from "react-redux";
 import GroupedTasks from "../components/GroupedTasks";
+import { getFirebaseApp } from "../utils/firebaseInit";
+import { child, getDatabase, ref, onValue, off } from "firebase/database";
 
 // A component used in top link bar
 // the repetative code for each link is turned into a function to increase readability & usability
@@ -129,8 +131,9 @@ const HomeScreen = ({ navigation }) => {
 		const tasksOfTomorrow = [];
 		Object.values(taskList).map((item) => {
 			const taskDueDate = new Date(item.dueDate).toDateString();
-			const tomorrowsDate = new Date(currentDate.getTime() + 86400000).toDateString();
-			console.log(tomorrowsDate);
+			const tomorrowsDate = new Date(
+				currentDate.getTime() + 86400000
+			).toDateString();
 			if (tomorrowsDate === taskDueDate) {
 				tasksOfTomorrow.push(item);
 			}
@@ -138,23 +141,23 @@ const HomeScreen = ({ navigation }) => {
 		return tasksOfTomorrow;
 	};
 
-	// fetching task list from db
+	// fetching task list from db when new task is being added
 	useEffect(() => {
 		const fetchTaskList = async () => {
 			try {
 				// loading indicator until data is fetched
 				setIsLoading(true);
-				// data fetching from db
-				const retrievedtaskList = await getTaskList(userId);
-				// storing task list
-				setAllTaskList(retrievedtaskList);
+				const retrievedtaskList = alltaskList;
+				console.log(retrievedtaskList);
 				const completedTasks = filteringCompletedTasks(
 					retrievedtaskList
 				);
 				// storing completed tasks list
 				setCompletedTaskList(completedTasks);
 				setTodaysTaskList(filteringTodayTasks(retrievedtaskList));
-				setTomorrowsTaskList(filteringTomorrowsTasks(retrievedtaskList));
+				setTomorrowsTaskList(
+					filteringTomorrowsTasks(retrievedtaskList)
+				);
 				setOverDueTaskList(filteringOverDueTasks(retrievedtaskList));
 				// hide loading indicator after data is fetched
 				setIsLoading(false);
@@ -166,8 +169,29 @@ const HomeScreen = ({ navigation }) => {
 			}
 		};
 		fetchTaskList();
-		// setIsLoading(false);
 	}, [alltaskList]);
+
+	// fetching tasklist from database & adding it to local state
+	useEffect(() => {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const taskListRef = child(dbRef, `users/${userId}/tasks`);
+
+		onValue(taskListRef, (snapshot) => {
+			const taskList = [];
+			snapshot.forEach((childSnapshot) => {
+				const task = childSnapshot.val();
+				taskList.push(task);
+			});
+
+			setAllTaskList(taskList);
+		});
+
+		return () => {
+			// Clean up the Firebase listener when the component unmounts
+			off(taskListRef);
+		};
+	}, []);
 
 	// Main UI renderer
 	return (
