@@ -44,6 +44,7 @@ const HomeScreen = ({ navigation }) => {
 	const [todaysTaskList, setTodaysTaskList] = useState([]);
 	const [overDueTaskList, setOverDueTaskList] = useState([]);
 	const [tomorrowsTaskList, setTomorrowsTaskList] = useState([]);
+	const [upcomingTaskList, setUpcomingTaskList] = useState({});
 	const [taskData, setTaskData] = useState({});
 	const [isHome, setIsHome] = useState(true);
 	const [isCompleted, setIsCompleted] = useState(false);
@@ -101,10 +102,12 @@ const HomeScreen = ({ navigation }) => {
 	const filteringTodayTasks = (taskList) => {
 		const tasksOfToday = [];
 		Object.values(taskList).map((item) => {
-			const taskDueDate = new Date(item.dueDate).toDateString();
-			const todaysDate = currentDate.toDateString();
-			if (todaysDate === taskDueDate) {
-				tasksOfToday.push(item);
+			if (item.completed !== true) {
+				const taskDueDate = new Date(item.dueDate).toDateString();
+				const todaysDate = currentDate.toDateString();
+				if (todaysDate === taskDueDate) {
+					tasksOfToday.push(item);
+				}
 			}
 		});
 		return tasksOfToday;
@@ -114,13 +117,15 @@ const HomeScreen = ({ navigation }) => {
 	const filteringOverDueTasks = (taskList) => {
 		const overDueTasks = [];
 		Object.values(taskList).map((item) => {
-			const taskDueDate = new Date(item.dueDate).getTime();
-			const todaysDate = currentDate.getTime();
-			if (
-				todaysDate - 86400000 > taskDueDate &&
-				item.completed !== true
-			) {
-				overDueTasks.push(item);
+			if (item.completed !== true) {
+				const taskDueDate = new Date(item.dueDate).getTime();
+				const todaysDate = currentDate.getTime();
+				if (
+					todaysDate - 86400000 > taskDueDate &&
+					item.completed !== true
+				) {
+					overDueTasks.push(item);
+				}
 			}
 		});
 		return overDueTasks;
@@ -130,16 +135,40 @@ const HomeScreen = ({ navigation }) => {
 	const filteringTomorrowsTasks = (taskList) => {
 		const tasksOfTomorrow = [];
 		Object.values(taskList).map((item) => {
-			const taskDueDate = new Date(item.dueDate).toDateString();
-			const tomorrowsDate = new Date(
-				currentDate.getTime() + 86400000
-			).toDateString();
-			if (tomorrowsDate === taskDueDate) {
-				tasksOfTomorrow.push(item);
+			if (item.completed !== true) {
+				const taskDueDate = new Date(item.dueDate).toDateString();
+				const tomorrowsDate = new Date(
+					currentDate.getTime() + 86400000
+				).toDateString();
+				if (tomorrowsDate === taskDueDate) {
+					tasksOfTomorrow.push(item);
+				}
 			}
 		});
 		return tasksOfTomorrow;
 	};
+
+	// filtering upcoming tasks
+	useEffect(() => {
+		// making array of objects for unique due dates of task
+		const tasksGroupBydueDates = alltaskList.reduce((acc, task) => {
+			const dueDateOfTask = task.dueDate;
+			// checking if the task is completed or not
+			if (task.completed !== true) {
+				// task due date is later than today's date
+				if (new Date(dueDateOfTask).getTime() > currentDate.getTime()) {
+					if (!acc[dueDateOfTask]) {
+						acc[dueDateOfTask] = [];
+					}
+					acc[dueDateOfTask].push(task);
+				}
+			}
+			return acc;
+		}, {});
+
+		// storing the array in local state
+		setUpcomingTaskList(tasksGroupBydueDates);
+	}, [alltaskList]);
 
 	// fetching task list from db when new task is being added
 	useEffect(() => {
@@ -148,7 +177,6 @@ const HomeScreen = ({ navigation }) => {
 				// loading indicator until data is fetched
 				setIsLoading(true);
 				const retrievedtaskList = alltaskList;
-				console.log(retrievedtaskList);
 				const completedTasks = filteringCompletedTasks(
 					retrievedtaskList
 				);
@@ -177,6 +205,7 @@ const HomeScreen = ({ navigation }) => {
 		const dbRef = ref(getDatabase(app));
 		const taskListRef = child(dbRef, `users/${userId}/tasks`);
 
+		// when data changes on database
 		onValue(taskListRef, (snapshot) => {
 			const taskList = [];
 			snapshot.forEach((childSnapshot) => {
@@ -184,11 +213,12 @@ const HomeScreen = ({ navigation }) => {
 				taskList.push(task);
 			});
 
+			// saving the freshly fetched data to local state
 			setAllTaskList(taskList);
 		});
 
 		return () => {
-			// Clean up the Firebase listener when the component unmounts
+			// Closing the db call when the component unmounts
 			off(taskListRef);
 		};
 	}, []);
@@ -235,6 +265,7 @@ const HomeScreen = ({ navigation }) => {
 			{/* view to render no task is added yet */}
 			{Object.keys(alltaskList).length === 1 && (
 				<View>
+					{/* dummy task view */}
 					<TaskView
 						taskName={Object.values(alltaskList)[0].taskName}
 						dueDate={Object.values(alltaskList)[0].dueDate}
@@ -262,6 +293,7 @@ const HomeScreen = ({ navigation }) => {
 							})
 						}
 					/>
+					{/* Add task button */}
 					<View style={styles.midContainer}>
 						<Text
 							style={{
@@ -288,29 +320,53 @@ const HomeScreen = ({ navigation }) => {
 				<ScrollView style={{ height: "88%" }}>
 					{/* Showing tasks by group */}
 					{/* Today's Tasks */}
-					<GroupedTasks
-						label="Today"
-						taskList={todaysTaskList}
-						setShowAlert={setShowAlert}
-						setTaskData={setTaskData}
-						userId={userId}
-					></GroupedTasks>
+					{Object.keys(todaysTaskList).length !== 0 && (
+						<GroupedTasks
+							label="Today"
+							taskList={todaysTaskList}
+							setShowAlert={setShowAlert}
+							setTaskData={setTaskData}
+							userId={userId}
+						></GroupedTasks>
+					)}
 					{/* SHOW TOMORROW'S TASK HERE */}
-					<GroupedTasks
-						label="Tomorrow"
-						taskList={tomorrowsTaskList}
-						setShowAlert={setShowAlert}
-						setTaskData={setTaskData}
-						userId={userId}
-					></GroupedTasks>
+					{Object.keys(tomorrowsTaskList).length !== 0 && (
+						<GroupedTasks
+							label="Tomorrow"
+							taskList={tomorrowsTaskList}
+							setShowAlert={setShowAlert}
+							setTaskData={setTaskData}
+							userId={userId}
+						></GroupedTasks>
+					)}
 					{/* Overdue tasks */}
-					<GroupedTasks
-						label="OverDue Tasks"
-						taskList={overDueTaskList}
-						setShowAlert={setShowAlert}
-						setTaskData={setTaskData}
-						userId={userId}
-					></GroupedTasks>
+					{Object.keys(overDueTaskList).length !== 0 && (
+						<GroupedTasks
+							label="OverDue Tasks"
+							taskList={overDueTaskList}
+							setShowAlert={setShowAlert}
+							setTaskData={setTaskData}
+							userId={userId}
+						></GroupedTasks>
+					)}
+				</ScrollView>
+			)}
+
+			{/* showing upcoming task list */}
+			{isUpcoming && upcomingTaskList !== null && (
+				<ScrollView style={{ height: "88%" }}>
+					{Object.keys(upcomingTaskList).map((item) => {
+						return (
+							<GroupedTasks
+								key={item}
+								label={item}
+								taskList={upcomingTaskList[item]}
+								setShowAlert={setShowAlert}
+								setTaskData={setTaskData}
+								userId={userId}
+							/>
+						);
+					})}
 				</ScrollView>
 			)}
 
