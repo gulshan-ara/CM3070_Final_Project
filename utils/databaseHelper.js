@@ -55,6 +55,20 @@ export const addNewTaskForUser = async (userId, taskId, taskData) => {
 	}
 };
 
+// add new post for an user
+export const addNewPostForUser = async (userId, postId, postData) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const userRef = child(dbRef, `users/${userId}/posts/${postId}`);
+		// const taskRef = child(userRef, `tasks/${taskId}`);
+
+		await set(userRef, postData);
+	} catch (error) {
+		console.log(error.message);
+	}
+};
+
 // fetch existing task list for an user
 export const getTaskList = async (userId) => {
 	try {

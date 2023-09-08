@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Image,
 	ScrollView,
 	StyleSheet,
@@ -7,14 +8,38 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import PostView from "../components/PostView";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderTabButton from "../components/HeaderTabButton";
 import { FontAwesome5 } from "@expo/vector-icons";
+import uuid from "react-native-uuid";
+import { addNewPostForUser } from "../utils/databaseHelper";
+import { useSelector } from "react-redux";
 
+//  Component to render profile screen
 const ProfileScreen = ({ navigation }) => {
+	// state variables
+	const [postText, setPostText] = useState("");
+	// fetching current user Id from redux state
+	const userId = useSelector((state) => state.user.userId);
+
+	// adding post to databasse
+	const handlePostSubmission = async () => {
+		// creating an unique post id
+		const postId = uuid.v4();
+		// post content and post creation date
+		const postData = {
+			postContent: postText,
+			postCreationDate: new Date().toDateString(),
+		};
+
+		// adding post to database
+		await addNewPostForUser(userId, postId, postData);
+	};
+
+	// icon to navigate to another screens
 	useEffect(() => {
 		// adding headerRight property in options of header
 		navigation.setOptions({
@@ -23,7 +48,7 @@ const ProfileScreen = ({ navigation }) => {
 					// Custom component is used to enhance usability & readability of code
 					<HeaderButtons HeaderButtonComponent={HeaderTabButton}>
 						<Item
-							title="New Task"
+							title="Friends"
 							iconName="user-friends"
 							IconComponent={FontAwesome5}
 						/>
@@ -33,8 +58,10 @@ const ProfileScreen = ({ navigation }) => {
 		});
 	}, []);
 
+	// Main UI to render in profile screen
 	return (
 		<View style={styles.container}>
+			{/* user info view */}
 			<View style={styles.profileInfo}>
 				<View style={styles.imgContainer}>
 					<Image
@@ -50,6 +77,7 @@ const ProfileScreen = ({ navigation }) => {
 				</View>
 			</View>
 
+			{/* Existings posts view */}
 			<ScrollView style={{ flex: 1, marginTop: 5 }}>
 				<PostView
 					postText="This is my First post, I am checking how looks like on screen???"
@@ -77,7 +105,9 @@ const ProfileScreen = ({ navigation }) => {
 				/>
 			</ScrollView>
 
+			{/* post creation view */}
 			<View style={styles.inputContainer}>
+				{/* upload image icon */}
 				<TouchableOpacity>
 					<Feather
 						name="plus"
@@ -85,8 +115,26 @@ const ProfileScreen = ({ navigation }) => {
 						color="rgba(255,127,80, 0.9)"
 					/>
 				</TouchableOpacity>
-				<TextInput style={styles.textBox} placeholder="Add new post" />
-				<TouchableOpacity style={styles.postBtn}>
+				{/* Type post content */}
+				<TextInput
+					style={styles.textBox}
+					placeholder="Add new post"
+					multiline
+					value={postText}
+					onChangeText={(txt) => setPostText(txt)}
+				/>
+				{/* Adding the post in database by pressing post button */}
+				<TouchableOpacity
+					style={styles.postBtn}
+					onPress={() => {
+						if (postText !== "") {
+							handlePostSubmission();
+							setPostText("");
+						} else {
+							Alert.alert("Add some text to post!");
+						}
+					}}
+				>
 					<Text style={styles.postText}>Post</Text>
 				</TouchableOpacity>
 			</View>
