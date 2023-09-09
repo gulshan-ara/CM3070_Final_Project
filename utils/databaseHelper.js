@@ -83,6 +83,26 @@ export const getTaskList = async (userId) => {
 	}
 };
 
+// fetch basic info for an user
+export const fetchUserInfo = async (userId) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const userRef = child(dbRef, `users/${userId}`);
+
+		const snapshot = (await get(userRef)).val();
+
+		// fetching only name and email
+		const infoObj = {
+			name : snapshot.name,
+			email : snapshot.email
+		}
+		return infoObj;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 // fetch a particular task for an user
 export const getTask = async (taskId, userId) => {
 	try {

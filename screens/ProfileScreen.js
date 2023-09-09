@@ -22,8 +22,11 @@ import { useSelector } from "react-redux";
 const ProfileScreen = ({ navigation }) => {
 	// state variables
 	const [postText, setPostText] = useState("");
-	// fetching current user Id from redux state
+	// fetching current user info from redux state
 	const userId = useSelector((state) => state.user.userId);
+	const userPosts = useSelector((state) => state.user.postList);
+	const userName = useSelector((state) => state.user.userName);
+	// const userEmail = useSelector((state) => state.user.userEmail);
 
 	// adding post to databasse
 	const handlePostSubmission = async () => {
@@ -70,7 +73,7 @@ const ProfileScreen = ({ navigation }) => {
 					/>
 				</View>
 				<View style={styles.nameContainer}>
-					<Text style={styles.nameText}>Gulshan Ara</Text>
+					<Text style={styles.nameText}>{userName}</Text>
 					<Text style={styles.aboutText} numberOfLines={3}>
 						This section is to show some info
 					</Text>
@@ -79,30 +82,15 @@ const ProfileScreen = ({ navigation }) => {
 
 			{/* Existings posts view */}
 			<ScrollView style={{ flex: 1, marginTop: 5 }}>
-				<PostView
-					postText="This is my First post, I am checking how looks like on screen???"
-					date="Thu 23-06-23"
-				/>
-				<PostView
-					postText="This is my Second post"
-					date="Thu 23-06-23"
-				/>
-				<PostView
-					postText="I'm proud to share that I completed task X!!!"
-					date="Thu 23-06-23"
-				/>
-				<PostView
-					postText="Feeling happy to complete 20 tasks in 3 days!!"
-					date="Thu 23-06-23"
-				/>
-				<PostView
-					postText="Feeling happy to complete 20 tasks in 3 days!!"
-					date="Thu 23-06-23"
-				/>
-				<PostView
-					postText="Feeling happy to complete 20 tasks in 3 days!!"
-					date="Thu 23-06-23"
-				/>
+				{userPosts.map((item) => {
+					return (
+						<PostView
+							key={uuid.v4()}
+							postText={item.postContent}
+							date={item.postCreationDate}
+						/>
+					);
+				})}
 			</ScrollView>
 
 			{/* post creation view */}

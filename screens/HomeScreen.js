@@ -16,12 +16,18 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderTabButton from "../components/HeaderTabButton";
 import TaskView from "../components/TaskView";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { editTask, getTaskList } from "../utils/databaseHelper";
+import { editTask, fetchUserInfo, getTaskList } from "../utils/databaseHelper";
 import CustomButton from "../components/CustomButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GroupedTasks from "../components/GroupedTasks";
 import { getFirebaseApp } from "../utils/firebaseInit";
 import { child, getDatabase, ref, onValue, off } from "firebase/database";
+import {
+	generalInfoOfUser,
+	userEmailInfo,
+	userNameInfo,
+	userPosts,
+} from "../redux_store/userSlice";
 
 // A component used in top link bar
 // the repetative code for each link is turned into a function to increase readability & usability
@@ -50,6 +56,7 @@ const HomeScreen = ({ navigation }) => {
 	const [isCompleted, setIsCompleted] = useState(false);
 	const [isUpcoming, setIsUpcoming] = useState(false);
 	const [currentDate, setCurrentDate] = useState(new Date());
+	const dispatch = useDispatch();
 
 	// side effect to update date daily
 	useEffect(() => {
@@ -204,6 +211,8 @@ const HomeScreen = ({ navigation }) => {
 		const app = getFirebaseApp();
 		const dbRef = ref(getDatabase(app));
 		const taskListRef = child(dbRef, `users/${userId}/tasks`);
+		const postsRef = child(dbRef, `users/${userId}/posts`);
+		const refs = [taskListRef, postsRef];
 
 		// when data changes on database
 		onValue(taskListRef, (snapshot) => {
@@ -217,10 +226,33 @@ const HomeScreen = ({ navigation }) => {
 			setAllTaskList(taskList);
 		});
 
+		// fetch posts created by user from database
+		onValue(postsRef, (snapshot) => {
+			const postsList = [];
+			snapshot.forEach((childSnapshot) => {
+				const post = childSnapshot.val();
+				postsList.push(post);
+			});
+
+			// saving posts in redux store
+			dispatch(userPosts({ postListArray: postsList }));
+		});
+
 		return () => {
 			// Closing the db call when the component unmounts
-			off(taskListRef);
+			refs.forEach((ref) => off(ref));
 		};
+	}, []);
+
+	// Fetching user name and email from database and saving in redux store
+	useEffect(() => {
+		const userBasicInfo = async () => {
+			const info = await fetchUserInfo(userId);
+			dispatch(userNameInfo({ userName: info.name }));
+			dispatch(userEmailInfo({ userEmail: info.email }));
+		};
+
+		userBasicInfo();
 	}, []);
 
 	// Main UI renderer
