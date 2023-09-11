@@ -22,6 +22,8 @@ import SearchScreen from "../screens/SearchScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import SignUpForm from "../screens/SignUpForm";
 import SignInForm from "../screens/SignInForm";
+import UserListScreen from "../screens/UserListScreen";
+import FriendsPostScreen from "../screens/FriendsPostScreen";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -97,6 +99,8 @@ const MainNavigator = () => {
 			<Stack.Screen name="New Task" component={NewTask} />
 			<Stack.Screen name="Edit Task" component={EditTaskScreen} />
 			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />
+			<Stack.Screen name="Friend List" component={UserListScreen} />
+			<Stack.Screen name="Post Screen" component={FriendsPostScreen} />
 		</Stack.Navigator>
 	);
 };

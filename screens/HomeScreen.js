@@ -247,7 +247,9 @@ const HomeScreen = ({ navigation }) => {
 				const user = childSnapshot.val();
 				const userName = user.name;
 				const fetchedUserId = user.userId;
-				usersList.push({userName, fetchedUserId});
+				if (fetchedUserId !== userId) {
+					usersList.push({ userName, fetchedUserId });
+				}
 			});
 
 			// saving posts in redux store

@@ -54,6 +54,7 @@ const ProfileScreen = ({ navigation }) => {
 							title="Friends"
 							iconName="user-friends"
 							IconComponent={FontAwesome5}
+							onPress={() => navigation.navigate("Friend List")}
 						/>
 					</HeaderButtons>
 				);

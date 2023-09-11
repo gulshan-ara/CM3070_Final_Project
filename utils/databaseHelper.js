@@ -83,6 +83,20 @@ export const getTaskList = async (userId) => {
 	}
 };
 
+// fetch existing post list for an user
+export const getPostList = async (userId) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const postListRef = child(dbRef, `users/${userId}/posts`);
+
+		const snapshot = await get(postListRef);
+		return snapshot.val();
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 // fetch basic info for an user
 export const fetchUserInfo = async (userId) => {
 	try {
