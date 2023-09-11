@@ -1,32 +1,52 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
 import { getFirebaseApp } from "./firebaseInit";
 
-export const registerNewUser = (email, password) => {
-	const app = getFirebaseApp();
-	const auth = getAuth(app);
-	createUserWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			const user = userCredential.user;
-			console.log("User signed up successfully", user.email);
-		})
-		.catch((error) => {
-			const errorMessage = error.message;
-			console.log(errorMessage);
-		});
+export const registerNewUser = async (email, password) => {
+	try {
+		const app = getFirebaseApp();
+		const auth = getAuth(app);
+		const userCredential = await createUserWithEmailAndPassword(
+			auth,
+			email,
+			password
+		);
+
+		// Signed in
+		const user = userCredential.user;
+		const userEmail = user.email;
+		console.log("User signed up successfully", userEmail);
+
+		// return user id
+		const userId = userEmail.split("@")[0];
+		return userId;
+	} catch (error) {
+		console.log(error);
+	}
 };
 
-export const signInExistingUser = (email, password) => {
-	const app = getFirebaseApp();
-	const auth = getAuth(app);
-	signInWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			// Signed in
-			const user = userCredential.user;
-			console.log("User logged in successfully", user.email);
-		})
-		.catch((error) => {
-			const errorCode = error.code;
-			const errorMessage = error.message;
-			console.log(errorMessage);
-		});
+export const signInExistingUser = async (email, password) => {
+	try {
+		const app = getFirebaseApp();
+		const auth = getAuth(app);
+		const userCredential = await signInWithEmailAndPassword(
+			auth,
+			email,
+			password
+		);
+
+		// Signed in
+		const user = userCredential.user;
+		const userEmail = user.email;
+		console.log("User logged in successfully", userEmail);
+
+		// return user id
+		const userId = userEmail.split("@")[0];
+		return userId;
+	} catch (error) {
+		console.log(error);
+	}
 };

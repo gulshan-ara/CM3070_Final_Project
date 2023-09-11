@@ -1,5 +1,5 @@
 // import packages and libraries
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import InputField from "../components/authComponents/InputField";
 import { Feather } from "@expo/vector-icons";
@@ -40,17 +40,26 @@ const SignUpForm = ({ navigation }) => {
 			password === confirmedPassword
 		) {
 			// stores the user id
-			const userId = email.split("@")[0];
-			// adds new user in database
-			registerNewUser(email, password);
-			// stores info about new user in db
-			await addNewUserToDB(name, email, userId);
-			// makes userId publicly accessible
-			setUserId(userId);
-			dispatch(userInfo({ userId }));
-			console.log("added user!!");
+			try {
+				const userId = await registerNewUser(email, password);
+
+				if (userId) {
+					// stores info about new user in db
+					await addNewUserToDB(name, email, userId);
+					// makes userId publicly accessible
+					setUserId(userId);
+					dispatch(userInfo({ userId }));
+					console.log("added user!!");
+				} else {
+					console.log("Sign up failed");
+					Alert.alert("Sign up failed");
+				}
+			} catch (error) {
+				console.log(error);
+			}
 		} else {
 			console.log("try again");
+			Alert.alert("try again");
 		}
 	};
 

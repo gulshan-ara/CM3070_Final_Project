@@ -1,5 +1,11 @@
 // import packages and libraries
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+	Alert,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import InputField from "../components/authComponents/InputField";
 import { Feather } from "@expo/vector-icons";
@@ -29,15 +35,22 @@ const SignInForm = ({ navigation }) => {
 	};
 
 	// handles login action
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		if (email !== null && password !== null) {
-			// login action authenticated via firebase
-			signInExistingUser(email, password);
-			// storing user Id
-			const userId = email.split("@")[0];
-			setUserId(userId);
-			dispatch(userInfo({ userId }));
-			console.log("Logged In");
+			try {
+				// login action authenticated via firebase
+				const userId = await signInExistingUser(email, password);
+				if (userId) {
+					setUserId(userId);
+					dispatch(userInfo({ userId }));
+					console.log("Logged In");
+				} else {
+					console.log("Sign in failed");
+					Alert.alert("Invalid Credentials");
+				}
+			} catch (error) {
+				console.log(error);
+			}
 		} else {
 			console.log("try again");
 		}
