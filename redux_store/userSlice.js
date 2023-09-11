@@ -7,6 +7,7 @@ const userSlice = createSlice({
 		postList: [],
 		userName: null,
 		userEmail: null,
+		allUsers: []
 	},
 	reducers: {
 		userIdInfo: (state, action) => {
@@ -25,6 +26,10 @@ const userSlice = createSlice({
 			const payload = action.payload;
 			state.userEmail = payload.userEmail;
 		},
+		fetchingUsersList: (state, action) => {
+			const payload = action.payload;
+			state.allUsers = payload.usersList;
+		},
 	},
 });
 
@@ -32,4 +37,5 @@ export const userInfo = userSlice.actions.userIdInfo;
 export const userPosts = userSlice.actions.fetchingPostList;
 export const userNameInfo = userSlice.actions.userNameInfo;
 export const userEmailInfo = userSlice.actions.userEmailInfo;
+export const allUsersList = userSlice.actions.fetchingUsersList;
 export default userSlice.reducer;

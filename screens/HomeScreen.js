@@ -23,6 +23,7 @@ import GroupedTasks from "../components/GroupedTasks";
 import { getFirebaseApp } from "../utils/firebaseInit";
 import { child, getDatabase, ref, onValue, off } from "firebase/database";
 import {
+	allUsersList,
 	generalInfoOfUser,
 	userEmailInfo,
 	userNameInfo,
@@ -212,6 +213,7 @@ const HomeScreen = ({ navigation }) => {
 		const dbRef = ref(getDatabase(app));
 		const taskListRef = child(dbRef, `users/${userId}/tasks`);
 		const postsRef = child(dbRef, `users/${userId}/posts`);
+		const usersRef = child(dbRef, `users`);
 		const refs = [taskListRef, postsRef];
 
 		// when data changes on database
@@ -236,6 +238,20 @@ const HomeScreen = ({ navigation }) => {
 
 			// saving posts in redux store
 			dispatch(userPosts({ postListArray: postsList }));
+		});
+
+		// fetch posts created by user from database
+		onValue(usersRef, (snapshot) => {
+			const usersList = [];
+			snapshot.forEach((childSnapshot) => {
+				const user = childSnapshot.val();
+				const userName = user.name;
+				const fetchedUserId = user.userId;
+				usersList.push({userName, fetchedUserId});
+			});
+
+			// saving posts in redux store
+			dispatch(allUsersList({ usersList: usersList }));
 		});
 
 		return () => {
