@@ -15,7 +15,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderTabButton from "../components/HeaderTabButton";
 import { FontAwesome5 } from "@expo/vector-icons";
 import uuid from "react-native-uuid";
-import { addNewPostForUser } from "../utils/databaseHelper";
+import { addNewPostForUser, deletePost } from "../utils/databaseHelper";
 import { useSelector } from "react-redux";
 
 //  Component to render profile screen
@@ -36,10 +36,21 @@ const ProfileScreen = ({ navigation }) => {
 		const postData = {
 			postContent: postText,
 			postCreationDate: new Date().toDateString(),
+			postId: postId,
 		};
 
 		// adding post to database
 		await addNewPostForUser(userId, postId, postData);
+	};
+
+	const handleDelete = async (postId) => {
+		try {
+			await deletePost(userId, postId);
+		} catch (error) {
+			Alert.alert(error);
+		} finally {
+			Alert.alert("Post deleted successfully.");
+		}
 	};
 
 	// icon to navigate to another screens
@@ -87,8 +98,10 @@ const ProfileScreen = ({ navigation }) => {
 					return (
 						<PostView
 							key={uuid.v4()}
+							isEditable={true}
 							postText={item.postContent}
 							date={item.postCreationDate}
+							onPressDelete={() => handleDelete(item.postId)}
 						/>
 					);
 				})}

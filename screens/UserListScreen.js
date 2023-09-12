@@ -2,6 +2,7 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { useSelector } from "react-redux";
+import { AntDesign } from "@expo/vector-icons";
 
 // main component
 const UserListScreen = ({ navigation }) => {
@@ -27,6 +28,8 @@ const UserListScreen = ({ navigation }) => {
 							});
 						}}
 					>
+						{/* user icon  */}
+						<AntDesign name="user" size={30} color="black" />
 						{/* other user's name */}
 						<Text style={styles.nameText}>{item.userName}</Text>
 					</TouchableOpacity>
@@ -49,10 +52,13 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 		borderRadius: 10,
 		backgroundColor: "rgba(255, 228, 181, 0.7)",
+		flexDirection: "row",
 	},
 	nameText: {
 		fontSize: 18,
 		fontWeight: "bold",
 		letterSpacing: 0.5,
+		flex: 1,
+		marginHorizontal: 10,
 	},
 });

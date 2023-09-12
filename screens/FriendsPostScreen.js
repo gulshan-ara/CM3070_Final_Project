@@ -31,22 +31,45 @@ const FriendsPostScreen = ({ route, navigation }) => {
 
 	// render UI
 	return (
-		// Scrollview to render post list
-		<ScrollView>
-			{/* iterating over post list */}
-			{Object.values(postList).map((item) => {
-				return (
-					<PostView
-						key={uuid.v4()}
-						postText={item.postContent}
-						date={item.postCreationDate}
-					/>
-				);
-			})}
-		</ScrollView>
+		<>
+			{/* sorry text when no post is available to render */}
+			{postList === null && (
+				<View style={styles.textContainer}>
+					<Text style={styles.noPostText}>
+						{name.split(" ")[0]} has no post yet😢
+					</Text>
+				</View>
+			)}
+			{/* Scrollview to render post list */}
+			{postList !== null && (
+				<ScrollView>
+					{/* iterating over post list */}
+					{Object.values(postList).map((item) => {
+						return (
+							<PostView
+								key={uuid.v4()}
+								postText={item.postContent}
+								date={item.postCreationDate}
+							/>
+						);
+					})}
+				</ScrollView>
+			)}
+		</>
 	);
 };
 
 export default FriendsPostScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	textContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	noPostText: {
+		fontSize: 18,
+		fontWeight: "bold",
+		letterSpacing: 0.3,
+	},
+});

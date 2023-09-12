@@ -144,6 +144,19 @@ export const deleteTask = async (userId, taskId) => {
 	}
 };
 
+// delete a post from database
+export const deletePost = async (userId, postId) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const postRef = child(dbRef, `users/${userId}/posts/${postId}`);
+
+		await remove(postRef);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 // edit a task
 export const editTask = async (userId, taskId, taskData) => {
 	try {
