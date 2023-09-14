@@ -1,19 +1,25 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import CustomButton from "../components/CustomButton";
 
-const CustomLinkBar = ({ title }) => {
+// reusable component to show page links
+const CustomLinkBar = ({ title, onPress }) => {
 	return (
-		<TouchableOpacity style={styles.linkContainer}>
+		<TouchableOpacity style={styles.linkContainer} onPress={onPress}>
 			<Text style={styles.linkText}>{title}</Text>
 		</TouchableOpacity>
 	);
 };
 
-const SettingsScreen = () => {
+// main component showing all links
+const SettingsScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
-			<CustomLinkBar title="Account Settings" />
+			<CustomLinkBar
+				title="Account Info"
+				onPress={() => {
+					navigation.navigate("Account Info");
+				}}
+			/>
 			<CustomLinkBar title="Create Hair Routine" />
 			<CustomLinkBar title="Recycle Bin" />
 			<CustomLinkBar title="Switch Theme" />

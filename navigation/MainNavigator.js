@@ -24,6 +24,7 @@ import SignUpForm from "../screens/SignUpForm";
 import SignInForm from "../screens/SignInForm";
 import UserListScreen from "../screens/UserListScreen";
 import FriendsPostScreen from "../screens/FriendsPostScreen";
+import AccountSettingsScreen from "../screens/AccountSettingsScreen";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -101,6 +102,7 @@ const MainNavigator = () => {
 			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />
 			<Stack.Screen name="Friend List" component={UserListScreen} />
 			<Stack.Screen name="Post Screen" component={FriendsPostScreen} />
+			<Stack.Screen name="Account Info" component={AccountSettingsScreen} />
 		</Stack.Navigator>
 	);
 };

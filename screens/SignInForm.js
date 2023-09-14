@@ -43,6 +43,9 @@ const SignInForm = ({ navigation }) => {
 				if (userId) {
 					setUserId(userId);
 					dispatch(userInfo({ userId }));
+					navigation.navigate("Home", {
+						screen: "I-do",
+					});
 					console.log("Logged In");
 				} else {
 					console.log("Sign in failed");
@@ -56,15 +59,6 @@ const SignInForm = ({ navigation }) => {
 		}
 	};
 
-	// once user signs in, taken to next page
-	useEffect(() => {
-		if (userId !== null && userId !== undefined) {
-			navigation.navigate("Home", {
-				screen: "I-do",
-				// params: { userId: userId },
-			});
-		}
-	}, [userId]);
 
 	return (
 		// main view
