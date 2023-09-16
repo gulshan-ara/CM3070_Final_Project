@@ -21,7 +21,10 @@ export const registerNewUser = async (email, password) => {
 		console.log("User signed up successfully", userEmail);
 
 		// return user id
-		const userId = userEmail.split("@")[0];
+		// As no email can be used twice to sign up, so the user id is created from email
+		// here all characters are removed from the email address thus pure string values only
+		const userId = userEmail.replace(/[^a-zA-Z0-9 ]/g, '');
+		console.log(userId);
 		return userId;
 	} catch (error) {
 		console.log(error);
@@ -44,7 +47,8 @@ export const signInExistingUser = async (email, password) => {
 		console.log("User logged in successfully", userEmail);
 
 		// return user id
-		const userId = userEmail.split("@")[0];
+		const userId = userEmail.replace(/[^a-zA-Z0-9 ]/g, '');
+		console.log(userId);
 		return userId;
 	} catch (error) {
 		console.log(error);
