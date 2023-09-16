@@ -1,5 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
+import { getHairType } from "../utils/databaseHelper";
+import { useSelector } from "react-redux";
 
 // reusable component to show page links
 const CustomLinkBar = ({ title, onPress }) => {
@@ -12,6 +14,23 @@ const CustomLinkBar = ({ title, onPress }) => {
 
 // main component showing all links
 const SettingsScreen = ({ navigation }) => {
+	// fetch userId from redux store
+	const userId = useSelector((state) => state.user.userId);
+
+	// hook to check if there's existing hair object ot not
+	useEffect(() => {
+		const fetchHairNode = async (userId) => {
+			const hairObj = await getHairType(userId);
+			if(hairObj === null){
+				console.log("No Hair Quiz answered yet");
+			}else{
+				console.log(" Hair Quiz answered ");
+			}
+		}
+
+		fetchHairNode(userId);
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<CustomLinkBar
@@ -20,7 +39,9 @@ const SettingsScreen = ({ navigation }) => {
 					navigation.navigate("Account Info");
 				}}
 			/>
-			<CustomLinkBar title="Create Hair Routine" />
+			<CustomLinkBar title="Create Hair Routine" onPress={() => {
+					navigation.navigate("Hair Quiz");
+				}}/>
 			<CustomLinkBar title="Recycle Bin" />
 			<CustomLinkBar title="Switch Theme" />
 			<CustomLinkBar title="Help" />

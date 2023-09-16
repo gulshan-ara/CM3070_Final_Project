@@ -69,6 +69,20 @@ export const addNewPostForUser = async (userId, postId, postData) => {
 	}
 };
 
+// add hair ref for an user
+export const addHairRefForUser = async (userId, hairData) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const userRef = child(dbRef, `users/${userId}/hairType`);
+		// const taskRef = child(userRef, `tasks/${taskId}`);
+
+		await set(userRef, hairData);
+	} catch (error) {
+		console.log(error.message);
+	}
+};
+
 // fetch existing task list for an user
 export const getTaskList = async (userId) => {
 	try {
@@ -77,6 +91,20 @@ export const getTaskList = async (userId) => {
 		const taskListRef = child(dbRef, `users/${userId}/tasks`);
 
 		const snapshot = await get(taskListRef);
+		return snapshot.val();
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+// fetch hair type node for an user
+export const getHairType = async (userId) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const hairTypeRef = child(dbRef, `users/${userId}/hairType`);
+
+		const snapshot = await get(hairTypeRef);
 		return snapshot.val();
 	} catch (error) {
 		console.log(error);
