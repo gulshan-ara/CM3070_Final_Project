@@ -1,6 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect } from "react";
-import { getHairType } from "../utils/databaseHelper";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { updateHairNode } from "../utils/databaseHelper";
 import { useSelector } from "react-redux";
 
 // reusable component to show page links
@@ -16,32 +16,88 @@ const CustomLinkBar = ({ title, onPress }) => {
 const SettingsScreen = ({ navigation }) => {
 	// fetch userId from redux store
 	const userId = useSelector((state) => state.user.userId);
+	const hairNode = useSelector((state) => state.user.hairObj);
+	console.log(hairNode);
+	const [showHairRoutine, setShowHairRoutine] = useState(false);
+	const [hideHairRoutine, setHideHairRoutine] = useState(false);
+	const [createHairRoutine, setCreateHairRoutine] = useState(false);
 
 	// hook to check if there's existing hair object ot not
 	useEffect(() => {
-		const fetchHairNode = async (userId) => {
-			const hairObj = await getHairType(userId);
-			if(hairObj === null){
-				console.log("No Hair Quiz answered yet");
-			}else{
-				console.log(" Hair Quiz answered ");
+		const showCreateHairRoutine = () => {
+			if (hairNode === null) {
+				setCreateHairRoutine(true);
+			} else {
+				setCreateHairRoutine(false);
 			}
-		}
-
-		fetchHairNode(userId);
-	}, []);
+		};
+		showCreateHairRoutine();
+	}, [hairNode]);
 
 	return (
 		<View style={styles.container}>
+			{/* Link to view account details */}
 			<CustomLinkBar
 				title="Account Info"
 				onPress={() => {
 					navigation.navigate("Account Info");
 				}}
 			/>
-			<CustomLinkBar title="Create Hair Routine" onPress={() => {
-					navigation.navigate("Hair Quiz");
-				}}/>
+			{/* Link to questionnaire for generating hair care routine */}
+			{createHairRoutine && hairNode === null && (
+				<CustomLinkBar
+					title="Create Hair Routine"
+					onPress={() => {
+						try {
+							// rendering questionnaire screen
+							navigation.navigate("Hair Quiz");
+						} catch (error) {
+							Alert.alert(error);
+						} finally {
+							setCreateHairRoutine(false);
+						}
+					}}
+				/>
+			)}
+			{/* Link to handle visibility of hair care Routine */}
+			{createHairRoutine === false &&
+				// if initial values exist then show one link else another
+				(showHairRoutine ? (
+					<CustomLinkBar
+						title="Show Hair Routine"
+						onPress={async () => {
+							try {
+								// updating visibility in database
+								await updateHairNode(userId, {
+									...hairNode,
+									isShown: true,
+								});
+								setShowHairRoutine(false);
+								setHideHairRoutine(true);
+							} catch (error) {
+								Alert.alert(error);
+							}
+						}}
+					/>
+				) : (
+					<CustomLinkBar
+						title="Hide Hair Routine"
+						onPress={async () => {
+							try {
+								// updating visibility in database
+								await updateHairNode(userId, {
+									...hairNode,
+									isShown: false,
+								});
+								setHideHairRoutine(false);
+								setShowHairRoutine(true);
+							} catch (error) {
+								Alert.alert(error);
+							}
+						}}
+					/>
+				))}
+
 			<CustomLinkBar title="Recycle Bin" />
 			<CustomLinkBar title="Switch Theme" />
 			<CustomLinkBar title="Help" />

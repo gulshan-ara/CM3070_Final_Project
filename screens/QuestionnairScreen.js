@@ -70,12 +70,35 @@ const QuestionnairScreen = () => {
 
 	// onPress action of submit button
 	const handleSubmit = async () => {
+		// defining wash day interval based on scalp type
+		let interval;
+		if (scalpType === "Oily") {
+			interval = 3;
+		} else if (scalpType === "Dry") {
+			interval = 5;
+		} else {
+			interval = 4;
+		}
+
+		// defining hair task list based on hair type
+		let hairTaskSet;
+		if (hairType === "Straight" || hairType === "Wavy") {
+			hairTaskSet = "NonCurly";
+		} else {
+			hairTaskSet = "Curly";
+		}
+
+		// assorting all info in an object with creation date & visibility
 		const hairObject = {
 			scalpType,
 			hairType,
 			hairDensity,
 			hairPorosity,
 			hairElasticity,
+			interval,
+			hairTaskSet,
+			creationDate: new Date().toDateString(),
+			isShown: true,
 		};
 
 		// adding the hair object in database
@@ -135,7 +158,11 @@ const QuestionnairScreen = () => {
 				/>
 			</View>
 			{/* Submit button */}
-			<CustomButton buttonText="Submit" onPress={handleSubmit} />
+			<CustomButton
+				buttonText="Generate Routine"
+				onPress={handleSubmit}
+				buttonStyle={styles.button}
+			/>
 		</ScrollView>
 	);
 };
@@ -174,5 +201,9 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: "beige",
 		height: "100%",
+	},
+	button: {
+		width: "60%",
+		marginHorizontal: "20%",
 	},
 });

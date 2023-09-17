@@ -32,7 +32,7 @@ export const addNewUserToDB = async (name, email, userId) => {
 			name,
 			email,
 			userId,
-			tasks: initialTask
+			tasks: initialTask,
 		};
 
 		await set(userRef, userData);
@@ -193,6 +193,19 @@ export const editTask = async (userId, taskId, taskData) => {
 		const tasksRef = child(dbRef, `users/${userId}/tasks/${taskId}`);
 
 		await update(tasksRef, taskData);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+// edit a task
+export const updateHairNode = async (userId, hairData) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const hairTypeRef = child(dbRef, `users/${userId}/hairType`);
+
+		await update(hairTypeRef, hairData);
 	} catch (error) {
 		console.log(error);
 	}

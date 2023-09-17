@@ -25,6 +25,7 @@ import { child, getDatabase, ref, onValue, off } from "firebase/database";
 import {
 	allUsersList,
 	generalInfoOfUser,
+	updateHairObj,
 	userEmailInfo,
 	userNameInfo,
 	userPosts,
@@ -213,8 +214,9 @@ const HomeScreen = ({ navigation }) => {
 		const dbRef = ref(getDatabase(app));
 		const taskListRef = child(dbRef, `users/${userId}/tasks`);
 		const postsRef = child(dbRef, `users/${userId}/posts`);
+		const hairRef = child(dbRef, `users/${userId}/hairType`);
 		const usersRef = child(dbRef, `users`);
-		const refs = [taskListRef, postsRef];
+		const refs = [taskListRef, postsRef, usersRef, hairRef];
 
 		// when data changes on database
 		onValue(taskListRef, (snapshot) => {
@@ -254,6 +256,12 @@ const HomeScreen = ({ navigation }) => {
 
 			// saving posts in redux store
 			dispatch(allUsersList({ usersList: usersList }));
+		});
+
+		// tracking hairType node of db & saving in redux store
+		onValue(hairRef, (snapshot) => {
+			const hairObject = snapshot.val();
+			dispatch(updateHairObj({ hairObject }));
 		});
 
 		return () => {
