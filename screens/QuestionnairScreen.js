@@ -119,7 +119,22 @@ const QuestionnairScreen = ({ navigation }) => {
 		<ScrollView style={styles.container}>
 			{/* Question view with a question & options */}
 			<View style={styles.questionBox}>
-				<Text style={styles.qText}>What's your Scalp Type ?</Text>
+				<View style={{ flexDirection: "row", justifyContent: 'space-between'  }}>
+					<Text style={styles.qText}>What's your Scalp Type ?</Text>
+					<TouchableOpacity
+						onPress={() => {
+							Alert.alert(
+								"Scalp Type defines the natural state (eg. oily/dry) of scalp."
+							);
+						}}
+					>
+						<AntDesign
+							name="questioncircle"
+							size={18}
+							color="black"
+						/>
+					</TouchableOpacity>
+				</View>
 				<CustomOptionsView
 					optionData={quizObject["Scalp Type"]}
 					selectedOption={scalpType}
@@ -128,7 +143,22 @@ const QuestionnairScreen = ({ navigation }) => {
 			</View>
 			{/* Question view with a question & options */}
 			<View style={styles.questionBox}>
-				<Text style={styles.qText}>What's your Hair Type ?</Text>
+				<View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
+					<Text style={styles.qText}>What's your Hair Type ?</Text>
+					<TouchableOpacity
+						onPress={() => {
+							Alert.alert(
+								"Hair Type defines the natural hair pattern (eg. curly/straight)."
+							);
+						}}
+					>
+						<AntDesign
+							name="questioncircle"
+							size={18}
+							color="black"
+						/>
+					</TouchableOpacity>
+				</View>
 				<CustomOptionsView
 					optionData={quizObject["Hair Type"]}
 					selectedOption={hairType}
@@ -137,7 +167,22 @@ const QuestionnairScreen = ({ navigation }) => {
 			</View>
 			{/* Question view with a question & options */}
 			<View style={styles.questionBox}>
-				<Text style={styles.qText}>What's your Hair Density ?</Text>
+				<View style={{ flexDirection: "row", justifyContent: 'space-between'  }}>
+					<Text style={styles.qText}>What's your Hair Density ?</Text>
+					<TouchableOpacity
+						onPress={() => {
+							Alert.alert(
+								"Hair density defines the density of a single hair strand."
+							);
+						}}
+					>
+						<AntDesign
+							name="questioncircle"
+							size={18}
+							color="black"
+						/>
+					</TouchableOpacity>
+				</View>
 				<CustomOptionsView
 					optionData={quizObject["Hair Density"]}
 					selectedOption={hairDensity}
@@ -146,7 +191,24 @@ const QuestionnairScreen = ({ navigation }) => {
 			</View>
 			{/* Question view with a question & options */}
 			<View style={styles.questionBox}>
-				<Text style={styles.qText}>What's your Hair Porosity ?</Text>
+				<View style={{ flexDirection: "row", justifyContent: 'space-between'  }}>
+					<Text style={styles.qText}>
+						What's your Hair Porosity ?
+					</Text>
+					<TouchableOpacity
+						onPress={() => {
+							Alert.alert(
+								"Hair Porosity defines the water absorption power of hair strands."
+							);
+						}}
+					>
+						<AntDesign
+							name="questioncircle"
+							size={18}
+							color="black"
+						/>
+					</TouchableOpacity>
+				</View>
 				<CustomOptionsView
 					optionData={quizObject["Hair Porosity"]}
 					selectedOption={hairPorosity}
@@ -155,7 +217,24 @@ const QuestionnairScreen = ({ navigation }) => {
 			</View>
 			{/* Question view with a question & options */}
 			<View style={styles.questionBox}>
-				<Text style={styles.qText}>What's your Hair Elasticity ?</Text>
+				<View style={{ flexDirection: "row", justifyContent: 'space-between'  }}>
+					<Text style={styles.qText}>
+						What's your Hair Elasticity ?
+					</Text>
+					<TouchableOpacity
+						onPress={() => {
+							Alert.alert(
+								"Hair Elasticity defines how stretchy a hairstrand is."
+							);
+						}}
+					>
+						<AntDesign
+							name="questioncircle"
+							size={18}
+							color="black"
+						/>
+					</TouchableOpacity>
+				</View>
 				<CustomOptionsView
 					optionData={quizObject["Hair Elasticity"]}
 					selectedOption={hairElasticity}
