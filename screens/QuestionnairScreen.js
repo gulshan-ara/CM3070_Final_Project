@@ -59,7 +59,7 @@ const CustomOptionsView = ({
 	);
 };
 
-const QuestionnairScreen = () => {
+const QuestionnairScreen = ({ navigation }) => {
 	// state variables to store values
 	const [scalpType, setScalpType] = useState("Normal");
 	const [hairType, setHairType] = useState("Straight");
@@ -104,6 +104,11 @@ const QuestionnairScreen = () => {
 		// adding the hair object in database
 		try {
 			await addHairRefForUser(userId, hairObject);
+			// Navigate to Home Screen
+			navigation.navigate("Home", {
+				screen: "I-do",
+				params: { userId: userId },
+			});
 		} catch (error) {
 			Alert.alert(error);
 		}

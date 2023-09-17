@@ -26,6 +26,7 @@ import UserListScreen from "../screens/UserListScreen";
 import FriendsPostScreen from "../screens/FriendsPostScreen";
 import AccountSettingsScreen from "../screens/AccountSettingsScreen";
 import QuestionnairScreen from "../screens/QuestionnairScreen";
+import HairTaskList from "../screens/HairTaskList";
 
 // creating the stack
 const Stack = createStackNavigator();
@@ -103,8 +104,12 @@ const MainNavigator = () => {
 			<Stack.Screen name="Task Details" component={TaskDetailsScreen} />
 			<Stack.Screen name="Friend List" component={UserListScreen} />
 			<Stack.Screen name="Post Screen" component={FriendsPostScreen} />
-			<Stack.Screen name="Account Info" component={AccountSettingsScreen} />
+			<Stack.Screen
+				name="Account Info"
+				component={AccountSettingsScreen}
+			/>
 			<Stack.Screen name="Hair Quiz" component={QuestionnairScreen} />
+			<Stack.Screen name="Hair Task" component={HairTaskList} />
 		</Stack.Navigator>
 	);
 };

@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 // Import components & functions from this project
@@ -24,19 +24,27 @@ import { getFirebaseApp } from "../utils/firebaseInit";
 import { child, getDatabase, ref, onValue, off } from "firebase/database";
 import {
 	allUsersList,
-	generalInfoOfUser,
 	updateHairObj,
 	userEmailInfo,
 	userNameInfo,
 	userPosts,
 } from "../redux_store/userSlice";
+import HairCard from "../components/HairCard";
 
 // A component used in top link bar
 // the repetative code for each link is turned into a function to increase readability & usability
-const CustomLinkText = ({ title, onPress }) => {
+const CustomLinkText = ({ title, onPress, onFocus }) => {
+	// check if onFocus and show a different color text
+	let styledText;
+	if (onFocus === true) {
+		styledText = { ...styles.linkText, color: "rgba(60, 179, 113, 0.6)" };
+	} else {
+		styledText = styles.linkText;
+	}
+
 	return (
 		<TouchableOpacity onPress={onPress}>
-			<Text style={styles.linkText}>{title}</Text>
+			<Text style={styledText}>{title}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -281,6 +289,9 @@ const HomeScreen = ({ navigation }) => {
 		userBasicInfo();
 	}, []);
 
+	// fetch hairNode from state
+	const hairNode = useSelector((state) => state.user.hairObj);
+
 	// Main UI renderer
 	return (
 		<View style={styles.container}>
@@ -293,6 +304,7 @@ const HomeScreen = ({ navigation }) => {
 						setIsCompleted(false);
 						setIsUpcoming(false);
 					}}
+					onFocus={isHome}
 				/>
 				<CustomLinkText
 					title="Upcoming"
@@ -301,6 +313,7 @@ const HomeScreen = ({ navigation }) => {
 						setIsCompleted(false);
 						setIsUpcoming(true);
 					}}
+					onFocus={isUpcoming}
 				/>
 				<CustomLinkText
 					title="Completed"
@@ -309,9 +322,9 @@ const HomeScreen = ({ navigation }) => {
 						setIsCompleted(true);
 						setIsUpcoming(false);
 					}}
+					onFocus={isCompleted}
 				/>
 			</View>
-
 			{/* loading indicator */}
 			{isLoading && (
 				<ActivityIndicator
@@ -351,6 +364,14 @@ const HomeScreen = ({ navigation }) => {
 							})
 						}
 					/>
+					{/* Show hair task card */}
+					{hairNode !== null && hairNode.isShown === true && (
+						<HairCard
+							onPress={() => {
+								navigation.navigate("Hair Task");
+							}}
+						/>
+					)}
 					{/* Add task button */}
 					<View style={styles.midContainer}>
 						<Text
@@ -376,6 +397,14 @@ const HomeScreen = ({ navigation }) => {
 			{/* Scrollable view to render items from data array */}
 			{isHome && Object.keys(alltaskList).length > 1 && (
 				<ScrollView style={{ height: "88%" }}>
+					{/* Show hair tasks card */}
+					{hairNode !== null && hairNode.isShown === true && (
+						<HairCard
+							onPress={() => {
+								navigation.navigate("Hair Task");
+							}}
+						/>
+					)}
 					{/* Showing tasks by group */}
 					{/* Today's Tasks */}
 					{Object.keys(todaysTaskList).length !== 0 && (

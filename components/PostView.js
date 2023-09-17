@@ -20,7 +20,7 @@ const PostView = ({
 				{/* rendring the profile picture */}
 				<View style={styles.imgContainer}>
 					<Image
-						source={require("../assets/user.jpg")}
+						source={require("../assets/userIcon.jpg")}
 						style={{ width: 30, height: 30, borderRadius: 15 }}
 					/>
 				</View>

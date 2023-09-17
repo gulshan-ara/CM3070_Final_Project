@@ -42,7 +42,7 @@ const FriendsPostScreen = ({ route, navigation }) => {
 			)}
 			{/* Scrollview to render post list */}
 			{postList !== null && (
-				<ScrollView>
+				<ScrollView style={{backgroundColor: "beige"}}>
 					{/* iterating over post list */}
 					{Object.values(postList).map((item) => {
 						return (
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		backgroundColor: "beige"
 	},
 	noPostText: {
 		fontSize: 18,

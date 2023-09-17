@@ -78,16 +78,18 @@ const ProfileScreen = ({ navigation }) => {
 		<View style={styles.container}>
 			{/* user info view */}
 			<View style={styles.profileInfo}>
+				{/* an image view */}
 				<View style={styles.imgContainer}>
 					<Image
-						source={require("../assets/user.jpg")}
+						source={require("../assets/userIcon.jpg")}
 						style={{ width: 80, height: 80, borderRadius: 40 }}
 					/>
 				</View>
+				{/* User name view */}
 				<View style={styles.nameContainer}>
-					<Text style={styles.nameText}>{userName}</Text>
+					<Text style={styles.nameText}>{userName.split(' ')[0]}'s</Text>
 					<Text style={styles.aboutText} numberOfLines={3}>
-						This section is to show some info
+						place to share thoughts with Friends
 					</Text>
 				</View>
 			</View>

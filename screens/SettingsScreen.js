@@ -17,7 +17,6 @@ const SettingsScreen = ({ navigation }) => {
 	// fetch userId from redux store
 	const userId = useSelector((state) => state.user.userId);
 	const hairNode = useSelector((state) => state.user.hairObj);
-	console.log(hairNode);
 	const [showHairRoutine, setShowHairRoutine] = useState(false);
 	const [hideHairRoutine, setHideHairRoutine] = useState(false);
 	const [createHairRoutine, setCreateHairRoutine] = useState(false);
@@ -72,6 +71,7 @@ const SettingsScreen = ({ navigation }) => {
 									...hairNode,
 									isShown: true,
 								});
+								Alert.alert("Hair tasklist is visible now!");
 								setShowHairRoutine(false);
 								setHideHairRoutine(true);
 							} catch (error) {
@@ -89,6 +89,7 @@ const SettingsScreen = ({ navigation }) => {
 									...hairNode,
 									isShown: false,
 								});
+								Alert.alert("Hair tasklist is hidden now!");
 								setHideHairRoutine(false);
 								setShowHairRoutine(true);
 							} catch (error) {
