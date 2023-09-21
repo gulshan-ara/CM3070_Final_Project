@@ -405,6 +405,30 @@ const HomeScreen = ({ navigation }) => {
 							}}
 						/>
 					)}
+					{/* preventing empty screen */}
+					{todaysTaskList.length === 0 &&
+						tomorrowsTaskList.length === 0 &&
+						overDueTaskList.length === 0 && (
+							<View style={styles.midContainer}>
+								<Text
+									style={{
+										fontSize: 16,
+										fontWeight: "600",
+										letterSpacing: 0.3,
+									}}
+								>
+									Add more tasks
+								</Text>
+								<CustomButton
+									buttonText="Add Task"
+									onPress={() =>
+										navigation.navigate("New Task", {
+											userId: userId,
+										})
+									}
+								/>
+							</View>
+						)}
 					{/* Showing tasks by group */}
 					{/* Today's Tasks */}
 					{Object.keys(todaysTaskList).length !== 0 && (
@@ -455,6 +479,51 @@ const HomeScreen = ({ navigation }) => {
 						);
 					})}
 				</ScrollView>
+			)}
+			{/* showing empty upcoming task list */}
+			{isUpcoming && upcomingTaskList === null && (
+				<View style={styles.midContainer}>
+					<Text
+						style={{
+							fontSize: 16,
+							fontWeight: "600",
+							letterSpacing: 0.3,
+						}}
+					>
+						Add more tasks
+					</Text>
+					<CustomButton
+						buttonText="Add Task"
+						onPress={() =>
+							navigation.navigate("New Task", {
+								userId: userId,
+							})
+						}
+					/>
+				</View>
+			)}
+
+			{/* showing empty completed task screen */}
+			{isCompleted && completedTaskList.length === 0 && (
+				<View style={styles.midContainer}>
+					<Text
+						style={{
+							fontSize: 16,
+							fontWeight: "600",
+							letterSpacing: 0.3,
+						}}
+					>
+						No completed tasks yet
+					</Text>
+					<CustomButton
+						buttonText="Add Task"
+						onPress={() =>
+							navigation.navigate("New Task", {
+								userId: userId,
+							})
+						}
+					/>
+				</View>
 			)}
 
 			{/* Scrollable view to render items from data array */}

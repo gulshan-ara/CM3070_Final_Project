@@ -5,7 +5,7 @@ import React from "react";
 const HairCard = ({ onPress }) => {
 	return (
 		<TouchableOpacity style={styles.cardContainer} onPress={onPress}>
-			<Text style={styles.cardText}>Show Hair Tasks</Text>
+			<Text style={styles.cardText}>View HairCare Tasks</Text>
 		</TouchableOpacity>
 	);
 };
