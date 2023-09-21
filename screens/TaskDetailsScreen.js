@@ -1,5 +1,5 @@
 // import libraries & packages
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 // importing icon libraries
 import { MaterialIcons } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 // importing components from this project
 import CustomButton from "../components/CustomButton";
-import { deleteTask, getTask } from "../utils/databaseHelper";
+import { deleteTask, editTask, getTask } from "../utils/databaseHelper";
 import AwesomeAlert from "react-native-awesome-alerts";
 import CustomAlert from "../components/CustomAlert";
 import { useSelector } from "react-redux";
@@ -115,6 +115,28 @@ const TaskDetailsScreen = ({ navigation, route }) => {
 					});
 				}}
 			/>
+			{taskObject.completed !== true && (
+				<CustomButton
+					buttonText="Mark as Completed"
+					buttonStyle={{ width: "60%", marginHorizontal: "20%" }}
+					onPress={() => {
+						try {
+							const updatedTaskData = {
+								...taskObject,
+								completed: true,
+							};
+							editTask(
+								userId,
+								taskObject.taskId,
+								updatedTaskData
+							);
+							Alert.alert("This task is completed!!");
+						} catch (error) {
+							Alert.alert(error);
+						}
+					}}
+				/>
+			)}
 		</View>
 	);
 };

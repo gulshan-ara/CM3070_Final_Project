@@ -548,6 +548,7 @@ const HomeScreen = ({ navigation }) => {
 										dueDate: item.dueDate,
 										recurrenceStatus: item.recurrenceStatus,
 										taskId: item.taskId,
+										completed: item.completed,
 										userId: userId,
 									})
 								}
