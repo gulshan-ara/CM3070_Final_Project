@@ -1,6 +1,6 @@
 # "i-do" task manager mobile application
 
-## Managee your tasks along with a hair care routine. 
+## Manage your tasks along with a hair care routine. 
 
 This project is built for the assignment of CM3070 Final Project module of University of London. A task manager mobile application is built by using -
 * React Native
